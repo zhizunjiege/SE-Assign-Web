@@ -9,10 +9,10 @@
   "dependencies": {
     "@quasar/extras": "^1.11.2",
     "axios": "^0.22.0",
+    "pinia": "^2.0.4",
     "quasar": "^2.1.0",
     "vue": "^3.2.6",
-    "vue-router": "^4.0.11",
-    "vuex": "^4.0.2"
+    "vue-router": "^4.0.11"
   },
   "devDependencies": {
     "@types/node": "^16.10.3",

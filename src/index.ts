@@ -2,9 +2,9 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import { Quasar, quasarConfig } from "./quasar";
 import router from "./router";
-import { store, key } from "./store";
+import pinia from "./store";
 
-const app = createApp(App).use(Quasar, quasarConfig).use(router).use(store, key);
+const app = createApp(App).use(Quasar, quasarConfig).use(router).use(pinia);
 
 // 挂载app
 app.mount("#app");

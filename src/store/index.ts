@@ -1,14 +1,11 @@
-import { InjectionKey } from "vue";
-import { createStore, useStore as baseUseStore, Store } from "vuex";
+import { createPinia, defineStore } from "pinia";
 
-export interface State {}
+const pinia = createPinia();
 
-export const key: InjectionKey<Store<State>> = Symbol();
+export default pinia;
 
-export const store = createStore<State>({
-  state: {},
+export const useStore = defineStore("app", {
+  state: () => ({
+    online: false,
+  }),
 });
-
-export function useStore() {
-  return baseUseStore(key);
-}
