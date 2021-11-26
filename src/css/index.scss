@@ -1,9 +1,13 @@
 @import "./variables.scss";
 
+
+
 input::placeholder,
 textarea::placeholder {
   color: var(--ui-darken) !important;
 }
+
+
 
 /* 定义颜色变量，优先使用变量中的颜色，变量颜色无法满足的情况下才考虑使用直接的颜色 */
 .body--dark {

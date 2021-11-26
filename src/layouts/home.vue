@@ -1,21 +1,9 @@
-<script setup lang="ts">
-const $q = useQuasar();
-// const router = useRouter();
-
-// 侧边导航栏状态
-const leftDrawerOpen = ref(false);
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
-}
-</script>
-
 <template>
   <q-layout view="hHh lpR fFf">
-    <Helloworld></Helloworld>
     <q-header elevated>
       <q-toolbar class="ui-header-toolbar">
         <q-btn dense flat round icon="menu" :class="{ 'text-accent': leftDrawerOpen }" @click="toggleLeftDrawer" />
-        <q-toolbar-title shrink class="ui-header-title"> 自动化科学与电气工程学院 </q-toolbar-title>
+        <q-toolbar-title shrink class="ui-header-title"> 本科毕业设计选题系统 </q-toolbar-title>
         <div class="row q-ml-xl bg-secondary shadow-2 ui-header-menus"></div>
       </q-toolbar>
     </q-header>
@@ -32,6 +20,17 @@ function toggleLeftDrawer() {
     </q-footer>
   </q-layout>
 </template>
+
+<script setup lang="ts">
+const $q = useQuasar();
+// const router = useRouter();
+
+// 侧边导航栏状态
+const leftDrawerOpen = ref(false);
+function toggleLeftDrawer() {
+  leftDrawerOpen.value = !leftDrawerOpen.value;
+}
+</script>
 
 <style scoped>
 /* 定义header样式 */

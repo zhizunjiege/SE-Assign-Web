@@ -1,46 +1,19 @@
 <template>
-  <q-card>
+  <q-card class="ui-sign-card">
     <q-card-section> 登陆 </q-card-section>
     <q-card-section>
-      <q-input v-model="userStore.username" />
-      <q-input v-model="userStore.password" type="password" />
-      <q-radio />
+      <q-input v-model="userStore.username" autocomplete />
+      <q-input v-model="userStore.password" type="password" autocomplete />
+      <q-radio v-for="option in radioOptions" v-model="userStore.identity" :val="option.value" :label="option.label" />
     </q-card-section>
-    <q-card-section></q-card-section>
+    <q-card-section>
+      <q-btn label="登陆" class="full-width" @click="signin" />
+    </q-card-section>
+    <q-card-section class="flex justify-between">
+      <span>还没有账号，去注册</span>
+      <span>忘记密码</span>
+    </q-card-section>
   </q-card>
-  <div class="d-flex w-100 h-75 align-items-center justify-content-center">
-    <!-- <div class="px-5 pt-5 pb-4 rounded-lg" style="background-color: #63877d87; color: white">
-      <input-text
-        v-model="fields.username"
-        label="用户名"
-        placeholder="1~16位字母、数字或下划线"
-        pattern="\w{1,16}"
-        required
-      ></input-text>
-      <input-text
-        v-model="fields.password"
-        type="password"
-        label="密码"
-        placeholder="1~16位字母、数字或下划线"
-        pattern="\w{1,16}"
-        required
-      ></input-text>
-      <input-radio v-model="fields.identity" :radios="radios" class="form-group form-row justify-content-around"></input-radio>
-      <div class="form-row justify-content-around align-items-center mb-3">
-        <input-checkbox
-          v-model="fields.save"
-          :checkboxs="[{ val: 'save', des: '记住密码' }]"
-          class="col-6 col-md-6 mb-3 mb-md-0"
-        ></input-checkbox>
-        <app-button class="btn btn-primary col-6 col-md-6 mb-3 mb-md-0" type="submit">
-          <i class="fa fa-paper-plane"></i>登陆
-        </app-button>
-      </div>
-      <div class="text-right px-3">
-        <router-link to="/retrieve" style="color: black">找回密码</router-link>
-      </div>
-    </div> -->
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -48,13 +21,20 @@ import { useUserStore } from "~/stores/user";
 
 const userStore = useUserStore();
 
+const radioOptions = [
+  { value: "student", label: "学生" },
+  { value: "teacher", label: "教师" },
+];
+
+async function signin() {
+  // await userStore.signin()
+  alert("登陆成功");
+}
+
 /* export default {
   data() {
     return {
-      radios: [
-        { val: "student", des: "学生" },
-        { val: "teacher", des: "教师" },
-      ],
+
       fields: {
         username: localStorage.getItem("username") || "",
         password: localStorage.getItem("password") || "",
@@ -96,4 +76,13 @@ const userStore = useUserStore();
 }; */
 </script>
 
-<style></style>
+<style scoped>
+.ui-sign-card {
+  width: 500px;
+}
+</style>
+
+<route lang="yaml">
+meta:
+  layout: center
+</route>
