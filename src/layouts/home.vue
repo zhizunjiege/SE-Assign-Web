@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useQuasar } from "quasar";
 const $q = useQuasar();
 // const router = useRouter();
 
@@ -12,6 +11,7 @@ function toggleLeftDrawer() {
 
 <template>
   <q-layout view="hHh lpR fFf">
+    <Helloworld></Helloworld>
     <q-header elevated>
       <q-toolbar class="ui-header-toolbar">
         <q-btn dense flat round icon="menu" :class="{ 'text-accent': leftDrawerOpen }" @click="toggleLeftDrawer" />

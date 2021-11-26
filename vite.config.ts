@@ -1,10 +1,10 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-// import { quasar, transformAssetUrls } from "@quasar/vite-plugin";
-// import AutoImport from "unplugin-auto-import/vite";
-// import Components from "unplugin-vue-components/vite";
-// import Pages from "vite-plugin-pages";
-// import Layouts from "vite-plugin-vue-layouts";
+import { quasar, transformAssetUrls } from "@quasar/vite-plugin";
+import AutoImport from "unplugin-auto-import/vite";
+import Components from "unplugin-vue-components/vite";
+import Pages from "vite-plugin-pages";
+import Layouts from "vite-plugin-vue-layouts";
 
 import { resolve } from "path";
 
@@ -12,9 +12,9 @@ import { resolve } from "path";
 export default defineConfig({
   plugins: [
     vue({
-      // template: { transformAssetUrls },
+      template: { transformAssetUrls },
     }),
-    /* quasar({
+    quasar({
       sassVariables: "src/css/variables.scss",
     }),
     AutoImport({
@@ -35,12 +35,12 @@ export default defineConfig({
       deep: true,
     }),
     Pages({
-      dirs: "src/pages",
+      pagesDir: "src/pages",
     }),
     Layouts({
       layoutsDir: "src/layouts",
       defaultLayout: "home",
-    }), */
+    }),
   ],
   resolve: {
     alias: {
