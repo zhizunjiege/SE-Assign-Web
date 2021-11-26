@@ -3,13 +3,15 @@ import App from "./App.vue";
 import { Quasar, Notify, LocalStorage, SessionStorage } from "quasar";
 import iconSet from "quasar/icon-set/material-icons";
 import langCn from "quasar/lang/zh-CN";
-import "quasar/dist/quasar.prod.css";
+import "quasar/src/css/index.sass";
 import "@quasar/extras/material-icons/material-icons.css";
 import "@quasar/extras/material-icons-outlined/material-icons-outlined.css";
 
 import { createRouter, createWebHashHistory } from "vue-router";
 import { setupLayouts } from "virtual:generated-layouts";
 import generatedRoutes from "virtual:generated-pages";
+
+import "~/css/index.scss";
 
 // 配置quasar
 Notify.setDefaults({
@@ -31,7 +33,6 @@ Notify.registerType("ask", {
   icon: "help",
   position: "center",
 });
-
 const quasarConfig = {
   config: {},
   iconSet: iconSet,

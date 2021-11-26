@@ -1,10 +1,11 @@
-export const useUser = defineStore("user", {
+export const useUserStore = defineStore("user", {
   state: () => ({
     id: -1, // 用户id
     group: "", // 权限组
     identity: "", // 身份角色
 
     username: "", // 用户名
+    password: "", // 密码
     token: "", // 认证token
 
     // 共有信息

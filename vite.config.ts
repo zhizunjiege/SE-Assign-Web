@@ -1,16 +1,22 @@
 import { defineConfig } from "vite";
-import Vue from "@vitejs/plugin-vue";
-import AutoImport from "unplugin-auto-import/vite";
-import Components from "unplugin-vue-components/vite";
-import Pages from "vite-plugin-pages";
-import Layouts from "vite-plugin-vue-layouts";
+import vue from "@vitejs/plugin-vue";
+// import { quasar, transformAssetUrls } from "@quasar/vite-plugin";
+// import AutoImport from "unplugin-auto-import/vite";
+// import Components from "unplugin-vue-components/vite";
+// import Pages from "vite-plugin-pages";
+// import Layouts from "vite-plugin-vue-layouts";
 
 import { resolve } from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    Vue(),
+    vue({
+      // template: { transformAssetUrls },
+    }),
+    /* quasar({
+      sassVariables: "src/css/variables.scss",
+    }),
     AutoImport({
       imports: [
         "vue",
@@ -21,21 +27,20 @@ export default defineConfig({
           axios: [["default", "axios"]],
         },
       ],
-      dts: "src/imports.d.ts",
+      dts: "src/types/imports.d.ts",
     }),
     Components({
       dirs: ["src/components"],
-      dts: "src/components.d.ts",
+      dts: "src/types/components.d.ts",
       deep: true,
     }),
     Pages({
       dirs: "src/pages",
-      routeBlockLang: "yaml",
     }),
     Layouts({
       layoutsDir: "src/layouts",
       defaultLayout: "home",
-    }),
+    }), */
   ],
   resolve: {
     alias: {

@@ -1,6 +1,4 @@
 ///  <reference types="vite/client"/>
-///  <reference types="vite-plugin-pages/client"/>
-///  <reference types="vite-plugin-vue-layouts/client"/>
 
 declare module "*.vue" {
   import { DefineComponent } from "vue";
@@ -8,5 +6,3 @@ declare module "*.vue" {
   const component: DefineComponent<{}, {}, any>;
   export default component;
 }
-
-type PromiseType<T> = T extends Promise<infer R> ? R : T;

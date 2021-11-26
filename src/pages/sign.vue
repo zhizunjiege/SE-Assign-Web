@@ -2,53 +2,53 @@
   <q-card>
     <q-card-section> 登陆 </q-card-section>
     <q-card-section>
-      <q-input />
-      <q-input type="password" />
+      <q-input v-model="userStore.username" />
+      <q-input v-model="userStore.password" type="password" />
+      <q-radio />
     </q-card-section>
     <q-card-section></q-card-section>
   </q-card>
   <div class="d-flex w-100 h-75 align-items-center justify-content-center">
-    <div class="px-5 pt-5 pb-4 rounded-lg" style="background-color: #63877d87; color: white">
-      <form class="form-sm text-center" @submit.prevent="submit">
-        <input-text
-          v-model="fields.username"
-          label="用户名"
-          placeholder="1~16位字母、数字或下划线"
-          pattern="\w{1,16}"
-          required
-        ></input-text>
-        <input-text
-          v-model="fields.password"
-          type="password"
-          label="密码"
-          placeholder="1~16位字母、数字或下划线"
-          pattern="\w{1,16}"
-          required
-        ></input-text>
-        <input-radio
-          v-model="fields.identity"
-          :radios="radios"
-          class="form-group form-row justify-content-around"
-        ></input-radio>
-        <div class="form-row justify-content-around align-items-center mb-3">
-          <input-checkbox
-            v-model="fields.save"
-            :checkboxs="[{ val: 'save', des: '记住密码' }]"
-            class="col-6 col-md-6 mb-3 mb-md-0"
-          ></input-checkbox>
-          <app-button class="btn btn-primary col-6 col-md-6 mb-3 mb-md-0" type="submit">
-            <i class="fa fa-paper-plane"></i>登陆
-          </app-button>
-        </div>
-      </form>
+    <!-- <div class="px-5 pt-5 pb-4 rounded-lg" style="background-color: #63877d87; color: white">
+      <input-text
+        v-model="fields.username"
+        label="用户名"
+        placeholder="1~16位字母、数字或下划线"
+        pattern="\w{1,16}"
+        required
+      ></input-text>
+      <input-text
+        v-model="fields.password"
+        type="password"
+        label="密码"
+        placeholder="1~16位字母、数字或下划线"
+        pattern="\w{1,16}"
+        required
+      ></input-text>
+      <input-radio v-model="fields.identity" :radios="radios" class="form-group form-row justify-content-around"></input-radio>
+      <div class="form-row justify-content-around align-items-center mb-3">
+        <input-checkbox
+          v-model="fields.save"
+          :checkboxs="[{ val: 'save', des: '记住密码' }]"
+          class="col-6 col-md-6 mb-3 mb-md-0"
+        ></input-checkbox>
+        <app-button class="btn btn-primary col-6 col-md-6 mb-3 mb-md-0" type="submit">
+          <i class="fa fa-paper-plane"></i>登陆
+        </app-button>
+      </div>
       <div class="text-right px-3">
         <router-link to="/retrieve" style="color: black">找回密码</router-link>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
+
 <script setup lang="ts">
-export default {
+import { useUserStore } from "~/stores/user";
+
+const userStore = useUserStore();
+
+/* export default {
   data() {
     return {
       radios: [
@@ -93,10 +93,7 @@ export default {
       this.fields.identity = "admin";
     }
   },
-};
+}; */
 </script>
+
 <style></style>
-<route>
-name: aaa
-meta:
-</route>
