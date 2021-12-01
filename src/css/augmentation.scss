@@ -1,0 +1,53 @@
+@import "./variables.scss";
+
+// TODO: 用函数迭代生成
+@media (prefers-color-scheme: light) {
+  :root {
+    --q-primary: #{$primary-light};
+    --q-secondary: #{$secondary-light};
+    --q-positive: #{$positive-light};
+    --q-negative: #{$negative-light};
+    --q-accent: #{$accent-light};
+    --q-foil: #{$foil-light};
+    --q-info: #{$info-light};
+    --q-warning: #{$warning-light};
+    --q-error: #{$error-light};
+    --q-disable: #{$disable-light};
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --q-primary: #{$primary-dark};
+    --q-secondary: #{$secondary-dark};
+    --q-positive: #{$positive-dark};
+    --q-negative: #{$negative-dark};
+    --q-accent: #{$accent-dark};
+    --q-foil: #{$foil-dark};
+    --q-info: #{$info-dark};
+    --q-warning: #{$warning-dark};
+    --q-error: #{$error-dark};
+    --q-disable: #{$disable-dark};
+  }
+}
+:root {
+  --q-dark: #{$dark};
+  --q-dark-page: #{$dark-page};
+}
+.bg-foil {
+  background-color: var(--q-foil) !important;
+}
+.text-foil {
+  color: var(--q-foil) !important;
+}
+.bg-error {
+  background-color: var(--q-error) !important;
+}
+.text-error {
+  color: var(--q-error) !important;
+}
+.bg-disable {
+  background-color: var(--q-disable) !important;
+}
+.text-disable {
+  color: var(--q-disable) !important;
+}

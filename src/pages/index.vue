@@ -1,5 +1,12 @@
 <template>
-  <p>Helloworld！</p>
+  <div class="row">
+    <div class="col-12 text-center">
+      <h3>Helloworld！</h3>
+    </div>
+    <div class="col-12 text-center">
+      <h5><router-link to="/system" class="ui-router-link">进入系统</router-link></h5>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">

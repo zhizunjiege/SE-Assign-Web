@@ -1,11 +1,10 @@
 import App from "./App.vue";
 
 import { Quasar, Notify, LocalStorage, SessionStorage } from "quasar";
-import iconSet from "quasar/icon-set/material-icons";
+import iconSet from "quasar/icon-set/bootstrap-icons";
 import langCn from "quasar/lang/zh-CN";
 import "quasar/src/css/index.sass";
-import "@quasar/extras/material-icons/material-icons.css";
-import "@quasar/extras/material-icons-outlined/material-icons-outlined.css";
+import "@quasar/extras/bootstrap-icons/bootstrap-icons.css";
 
 import { createRouter, createWebHashHistory } from "vue-router";
 import { setupLayouts } from "virtual:generated-layouts";
@@ -46,10 +45,6 @@ const quasarConfig = {
 
 // 配置vue-router
 const routes = setupLayouts(generatedRoutes);
-
-console.log(generatedRoutes);
-console.log(routes);
-
 const router = createRouter({
   history: createWebHashHistory(),
   routes,

@@ -1,125 +1,87 @@
 <template>
-  <q-layout view="hHh lpR fFf">
+  <q-layout view="hHh lpr fFf">
     <q-header elevated>
-      <q-toolbar class="ui-header-toolbar">
-        <q-btn dense flat round icon="menu" :class="{ 'text-accent': leftDrawerOpen }" @click="toggleLeftDrawer" />
-        <q-toolbar-title shrink class="ui-header-title"> 本科毕业设计选题系统 </q-toolbar-title>
-        <div class="row q-ml-xl bg-secondary shadow-2 ui-header-menus"></div>
+      <q-toolbar class="justify-between ui-home-header-toolbar">
+        <q-toolbar-title shrink class="ui-home-header-title">
+          <router-link to="/system" class="ui-router-link"> 本科生毕业设计选题系统 </router-link>
+        </q-toolbar-title>
+        <div class="full-height flex items-center justify-between cursor-pointer ui-home-header-user">
+          <q-avatar size="4rem">
+            <q-img v-if="userStore.identity === 'admin'" :src="AVATAR_ADMIN" width="3rem" height="3rem" />
+            <q-icon v-else name="bi-person-circle" size="3rem" />
+          </q-avatar>
+          <div class="text-center">
+            <span>{{ userStore.name }}</span>
+          </div>
+          <q-badge :label="userStore.identityText" />
+          <q-menu fit>
+            <q-list class="text-center">
+              <q-item v-close-popup clickable>
+                <q-item-section>
+                  <router-link to="/user" class="ui-router-link">个人中心</router-link>
+                </q-item-section>
+              </q-item>
+              <q-item v-close-popup clickable>
+                <q-item-section @click="signOut">
+                  <router-link to="/sign?mode=out" class="ui-router-link">安全登出</router-link>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </div>
       </q-toolbar>
     </q-header>
-    <q-drawer v-model="leftDrawerOpen" show-if-above elevated side="left" :width="256">
-      <q-list class="full-height column"> </q-list>
-    </q-drawer>
     <q-page-container>
       <router-view />
     </q-page-container>
     <q-footer elevated>
-      <q-toolbar class="justify-end ui-footer-toolbar">
-        <q-toolbar-title shrink class="ui-footer-title"> © 2021 V1.0 </q-toolbar-title>
+      <q-toolbar class="justify-end ui-home-footer-toolbar">
+        <q-icon :name="$q.dark.isActive ? 'bi-moon' : 'bi-sun'" @click="$q.dark.toggle()" class="ui-icon" />
+        <q-space />
+        <q-toolbar-title shrink class="ui-home-footer-title"> © 2021 V1.0 </q-toolbar-title>
       </q-toolbar>
     </q-footer>
   </q-layout>
 </template>
 
 <script setup lang="ts">
-const $q = useQuasar();
-// const router = useRouter();
+import { useUserStore } from "~/stores/user";
 
-// 侧边导航栏状态
-const leftDrawerOpen = ref(false);
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
+import AVATAR_ADMIN from "~/assets/avatar/admin.svg";
+
+const userStore = useUserStore();
+
+async function signOut() {
+  await userStore.signOut();
+  alert("成功登出");
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* 定义header样式 */
-.ui-header-toolbar {
+.ui-home-header-toolbar {
   min-height: 0;
-  height: 50px;
+  height: 4rem;
+  padding: 0;
 }
-.ui-header-title {
-  min-width: 240px !important;
-  padding-left: 18px;
-  line-height: 0;
+.ui-home-header-title {
+  padding-left: 2rem;
+  font-size: 2rem;
 }
-.ui-header-menus {
-  width: 1198px;
-  height: 36px;
-  margin-left: 20px;
-  border-radius: 18px;
+.ui-home-header-user {
+  width: 15rem;
+  padding: 0 1rem;
+  &:hover {
+    background-color: var(--q-negative);
+  }
 }
-.ui-menu {
-  min-width: 125px;
-}
-.ui-menu > :deep(.q-item:not(.disabled):hover > .q-focus-helper) {
-  background-color: var(--q-positive);
-}
-.ui-menu > :deep(.q-item:not(.disabled):hover > .q-item__section) {
-  color: var(--q-accent);
-}
-
-/* 定义drawer样式 */
-:deep(.q-drawer) {
-  position: fixed;
-  margin: 2px 0;
-}
-:deep(.q-drawer .q-item__section--avatar) {
-  min-width: 28px;
-  padding-right: 10px;
-}
-.ui-tab-active {
-  background-color: var(--q-positive);
-  color: var(--q-accent);
-}
-.ui-tab-sys {
-  min-height: 0;
-  height: 36px;
-  width: 133px;
-  font-size: 14px !important;
-  margin-bottom: 18px;
-  padding: 0 16px;
-  border-radius: 4px;
-  background-color: var(--ui-disabled);
-  color: var(--q-accent);
-}
-:deep(.ui-tab-indent-1) {
-  padding-left: 27px;
-  font-size: 16px;
-}
-:deep(.ui-tab-indent-2) {
-  padding-left: 38px;
-  font-size: 16px;
-}
-:deep(.ui-tab-indent-3) {
-  padding-left: 86px;
-  font-size: 14px;
-}
-:deep(.ui-tab-indent-4) {
-  padding-left: 106px;
-  font-size: 14px;
-}
-.ui-model-name {
-  max-width: 110px;
-}
-
 /* 定义footer样式 */
-.ui-footer-toolbar {
+.ui-home-footer-toolbar {
   min-height: 0;
-  height: 30px;
+  height: 2rem;
 }
-.ui-footer-title {
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 2px;
-}
-
-/* 定义其他样式 */
-.ui-btn {
-  width: 180px;
-  height: 36px;
-  margin-top: 100px;
-  border-radius: 4px;
+.ui-home-footer-title {
+  font-size: 1rem;
   letter-spacing: 2px;
 }
 </style>
