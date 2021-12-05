@@ -17,7 +17,7 @@ import { useUserStore } from "~/stores/user";
 const userStore = useUserStore();
 
 const generatedTabs = computed(() => {
-  switch (userStore.identity) {
+  switch (userStore.role) {
     case "admin":
       return [
         { name: "notice", label: "系统公告" },

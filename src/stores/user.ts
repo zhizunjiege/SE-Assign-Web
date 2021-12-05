@@ -4,7 +4,7 @@ export const useUserStore = defineStore("user", {
 
     id: -1, // 用户id
     // group: "", // 权限组
-    identity: "student", // 角色身份
+    role: "student", // 角色身份
 
     username: "hh", // 账号
     password: "hhhh", // 密码
@@ -26,7 +26,7 @@ export const useUserStore = defineStore("user", {
       return state.gender === "man" ? "男" : "女";
     },
     identityText(state) {
-      return state.identity === "admin" ? "管理员" : state.identity === "teacher" ? "教师" : "学生";
+      return state.role === "admin" ? "管理员" : state.role === "teacher" ? "教师" : "学生";
     },
   },
   actions: {
