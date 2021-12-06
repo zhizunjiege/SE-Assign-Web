@@ -1,45 +1,51 @@
 <template>
-  <q-markup-table separator="horizontal" class="q-mx-auto ui-details-table">
+  <q-markup-table separator="horizontal" class="q-mx-auto ui-detail-table">
     <tbody>
+      <tr>
+        <td>账号</td>
+        <td>
+          <q-input v-model="uS.username" standout class="float-right ui-detail-text" disable />
+        </td>
+      </tr>
       <tr>
         <td>姓名</td>
         <td>
-          <q-input v-model="userStore.name" standout class="float-right ui-details-text" disable />
+          <q-input v-model="uS.name" standout class="float-right ui-detail-text" disable />
         </td>
       </tr>
       <tr>
         <td>性别</td>
         <td>
-          <q-input v-model="userStore.genderText" standout class="float-right ui-details-text" disable />
+          <q-input v-model="uS.gender" standout class="float-right ui-detail-text" disable />
         </td>
       </tr>
       <tr>
-        <td>{{ userStore.identity === "teacher" ? "工号" : "学号" }}</td>
+        <td>{{ uS.role === "teacher" ? "工号" : "学号" }}</td>
         <td>
-          <q-input v-model="userStore.jobNum" standout class="float-right ui-details-text" disable />
+          <q-input v-model="uS.jobNum" standout class="float-right ui-detail-text" disable />
         </td>
       </tr>
-      <tr v-if="userStore.identity === 'teacher'">
+      <tr v-if="uS.role === 'teacher'">
         <td>职称</td>
         <td>
-          <q-input v-model="userStore.title" standout class="float-right ui-details-text" disable />
+          <q-input v-model="uS.title" standout class="float-right ui-detail-text" disable />
         </td>
       </tr>
       <tr v-else>
         <td>班级</td>
         <td>
-          <q-input v-model="userStore.class" standout class="float-right ui-details-text" disable />
+          <q-input v-model="uS.class" standout class="float-right ui-detail-text" disable />
         </td>
       </tr>
       <tr>
-        <td>{{ userStore.identity === "teacher" ? "研究方向" : "主修专业" }}</td>
+        <td>{{ uS.role === "teacher" ? "研究方向" : "主修专业" }}</td>
         <td>
-          <q-input v-model="userStore.major" standout class="float-right ui-details-text" disable />
+          <q-input v-model="uS.major" standout class="float-right ui-detail-text" disable />
         </td>
       </tr>
     </tbody>
   </q-markup-table>
-  <div class="flex items-center justify-end ui-details-sep">
+  <div class="flex items-center justify-end ui-detail-sep">
     <q-icon v-if="!detDisabled" name="bi-check2" size="1.5rem" class="q-mr-sm ui-icon" @click="changeDetails">
       <q-tooltip anchor="top right" self="center left">确认修改</q-tooltip>
     </q-icon>
@@ -47,23 +53,23 @@
       <q-tooltip anchor="top right" self="center left">{{ detDisabled ? "修改信息" : "取消修改" }}</q-tooltip>
     </q-icon>
   </div>
-  <q-markup-table separator="horizontal" class="q-mx-auto ui-details-table">
+  <q-markup-table separator="horizontal" class="q-mx-auto ui-detail-table">
     <tbody>
       <tr>
         <td>邮箱</td>
         <td>
-          <q-input v-model="userStore.email" standout class="float-right ui-details-text" :disable="detDisabled" />
+          <q-input v-model="uS.email" standout class="float-right ui-detail-text" :disable="detDisabled" />
         </td>
       </tr>
       <tr>
         <td>个人简介</td>
         <td>
           <q-input
-            v-model="userStore.resume"
+            v-model="uS.resume"
             type="textarea"
             standout
             rows="10"
-            class="float-right ui-details-textarea"
+            class="float-right ui-detail-textarea"
             :disable="detDisabled"
           />
         </td>
@@ -75,20 +81,19 @@
 <script setup lang="ts">
 import { useUserStore } from "~/stores/user";
 
-const userStore = useUserStore();
+const uS = useUserStore();
 
 const detDisabled = ref(true);
-const verifyCode = ref("");
 
 async function changeDetails() {
   detDisabled.value = true;
-  await userStore.changeDetails(verifyCode.value);
-  alert("邮箱修改成功");
+  await uS.changeDetails();
+  alert("信息修改成功");
 }
 </script>
 
 <style scoped lang="scss">
-.ui-details-table {
+.ui-detail-table {
   width: 600px;
   :deep(tbody td) {
     min-height: 3rem;
@@ -96,14 +101,14 @@ async function changeDetails() {
     border-color: var(--q-negative);
   }
 }
-.ui-details-sep {
+.ui-detail-sep {
   width: 600px;
   height: 1.5rem;
   margin: 1rem auto 1rem auto;
   padding: 0 1.5rem;
 }
 
-@mixin ui-details-input {
+@mixin ui-detail-input {
   width: 300px;
   border-radius: 4px;
   :deep(input),
@@ -114,14 +119,14 @@ async function changeDetails() {
     background-color: var(--q-negative) !important;
   }
 }
-.ui-details-text {
-  @include ui-details-input;
+.ui-detail-text {
+  @include ui-detail-input;
   height: 2rem;
   :deep(.q-field__control) {
     height: 2rem;
   }
 }
-.ui-details-textarea {
-  @include ui-details-input;
+.ui-detail-textarea {
+  @include ui-detail-input;
 }
 </style>

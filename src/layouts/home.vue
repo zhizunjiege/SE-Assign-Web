@@ -7,13 +7,12 @@
         </q-toolbar-title>
         <div class="full-height flex items-center justify-between cursor-pointer ui-home-header-user">
           <q-avatar size="4rem">
-            <q-img v-if="userStore.identity === 'admin'" :src="AVATAR_ADMIN" width="3rem" height="3rem" />
-            <q-icon v-else name="bi-person-circle" size="3rem" />
+            <q-icon name="bi-person-circle" size="3rem" />
           </q-avatar>
           <div class="text-center">
-            <span>{{ userStore.name }}</span>
+            <span>{{ uS.name }}</span>
           </div>
-          <q-badge :label="userStore.identityText" />
+          <q-badge :label="uS.role" />
           <q-menu fit>
             <q-list class="text-center">
               <q-item v-close-popup clickable>
@@ -23,7 +22,7 @@
               </q-item>
               <q-item v-close-popup clickable>
                 <q-item-section @click="signOut">
-                  <router-link to="/sign?mode=out" class="ui-router-link">安全登出</router-link>
+                  <router-link to="/sign?mode=signOut" class="ui-router-link">安全登出</router-link>
                 </q-item-section>
               </q-item>
             </q-list>
@@ -38,7 +37,7 @@
       <q-toolbar class="justify-end ui-home-footer-toolbar">
         <q-icon :name="$q.dark.isActive ? 'bi-moon' : 'bi-sun'" @click="$q.dark.toggle()" class="ui-icon" />
         <q-space />
-        <q-toolbar-title shrink class="ui-home-footer-title"> © 2021 V1.0 </q-toolbar-title>
+        <q-toolbar-title shrink class="ui-home-footer-title"> 15 - 扎不多得嘞队 © 2021 V1.0 </q-toolbar-title>
       </q-toolbar>
     </q-footer>
   </q-layout>
@@ -47,12 +46,10 @@
 <script setup lang="ts">
 import { useUserStore } from "~/stores/user";
 
-import AVATAR_ADMIN from "~/assets/avatar/admin.svg";
-
-const userStore = useUserStore();
+const uS = useUserStore();
 
 async function signOut() {
-  await userStore.signOut();
+  await uS.signOut();
   alert("成功登出");
 }
 </script>
@@ -67,6 +64,7 @@ async function signOut() {
 .ui-home-header-title {
   padding-left: 2rem;
   font-size: 2rem;
+  letter-spacing: 0.5rem;
 }
 .ui-home-header-user {
   width: 15rem;

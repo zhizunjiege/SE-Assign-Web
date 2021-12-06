@@ -6,7 +6,7 @@
 .ui-link {
   @include link;
   &:hover {
-    color: var(--q-primary);
+    color: var(--q-accent);
   }
 }
 .ui-router-link {
@@ -20,6 +20,6 @@
 .ui-icon {
   @include icon;
   &:hover {
-    color: var(--q-primary);
+    color: var(--q-accent);
   }
 }

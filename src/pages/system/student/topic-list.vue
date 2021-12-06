@@ -10,17 +10,17 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="topic in topicStore.list" :key="topic.id" class="cursor-pointer" @click="showContent(topic.id)">
+      <tr v-for="topic in tS.list" :key="topic.id" class="cursor-pointer" @click="showContent(topic.id)">
         <td>{{ topic.title }}</td>
         <td>{{ topic.difficulty }}</td>
-        <td>{{ topic.teacher.name }}</td>
-        <td>{{ topic.teacher.title }}</td>
+        <td>{{ topic.teacher!.name }}</td>
+        <td>{{ topic.teacher!.title }}</td>
         <td>{{ topic.createTime }}</td>
       </tr>
     </tbody>
   </q-markup-table>
   <div v-else>
-    <TopicContent :topic-id="topicId" />
+    <TopicContent :topic="topicContent!" />
     <div class="q-mx-auto q-my-lg flex justify-between ui-list-btn-group">
       <q-btn label="返回" class="bg-primary ui-list-btn" @click="showList" />
       <q-btn label="选择此课题" class="bg-primary ui-list-btn" @click="chooseTopic" />
@@ -33,27 +33,27 @@ import TopicContent from "./topic-content.vue";
 
 import { useTopicStore } from "~/stores/student/topic";
 
-const topicStore = useTopicStore();
+const tS = useTopicStore();
 
 const showMode = ref(true);
 const topicId = ref(-1);
-function showContent(id: number) {
-  topicId.value = id;
-  showMode.value = false;
-}
+const topicContent = computed(() => tS.list.find((e) => e.id === topicId.value));
 function showList() {
   topicId.value = -1;
   showMode.value = true;
 }
+function showContent(id: number) {
+  topicId.value = id;
+  showMode.value = false;
+}
+
 async function chooseTopic() {
-  await topicStore.setSelectedTopicId(topicId.value);
+  await tS.setSelectedTopic(topicId.value);
   alert("选择课题成功");
-  topicId.value = -1;
-  showMode.value = true;
 }
 
 (async () => {
-  await topicStore.getTopicList();
+  await tS.getTopicList();
 })();
 </script>
 

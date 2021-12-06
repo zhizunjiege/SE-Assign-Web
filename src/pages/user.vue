@@ -2,13 +2,12 @@
   <q-page class="q-mx-auto ui-user-page">
     <div class="flex items-center justify-between q-mx-auto ui-user-avatar">
       <q-avatar size="8rem">
-        <q-img v-if="userStore.identity === 'admin'" :src="AVATAR_ADMIN" width="8rem" height="8rem" />
-        <q-icon v-else name="bi-person-circle" size="8rem" />
+        <q-icon name="bi-person-circle" size="8rem" />
       </q-avatar>
       <div class="text-center">
-        <h5>{{ userStore.name }}</h5>
+        <h5>{{ uS.name }}</h5>
       </div>
-      <q-badge :label="userStore.identityText" class="text-subtitle1" />
+      <q-badge :label="uS.role" class="text-subtitle1" />
     </div>
     <q-splitter v-model="splitterModel" class="ui-user-splitter">
       <template #before>
@@ -30,30 +29,15 @@
 <script setup lang="ts">
 import { useUserStore } from "~/stores/user";
 
-import AVATAR_ADMIN from "~/assets/avatar/admin.svg";
-
-const userStore = useUserStore();
+const uS = useUserStore();
 
 const splitterModel = ref(15);
-const tab = ref("account");
+const tab = ref("detail");
 
-const generatedTabs = computed(() => {
-  switch (userStore.identity) {
-    case "admin":
-      return [
-        { name: "account", label: "账户信息" },
-        { name: "permission", label: "权限信息" },
-      ];
-    case "teacher":
-    case "student":
-      return [
-        { name: "account", label: "账户信息" },
-        { name: "details", label: "详细信息" },
-      ];
-    default:
-      return [];
-  }
-});
+const generatedTabs = [
+  { name: "detail", label: "个人信息" },
+  { name: "reset", label: "重置密码" },
+];
 </script>
 
 <style scoped lang="scss">
@@ -71,7 +55,7 @@ const generatedTabs = computed(() => {
 </style>
 
 <route lang="yaml">
-redirect: /user/account
+redirect: /user/detail
 meta:
   layout: home
 </route>

@@ -1,43 +1,26 @@
 <template>
-  <TopicContent :topic-id="topicId" />
+  <TopicContent :topic="topicContent" />
 </template>
 
 <script setup lang="ts">
 import TopicContent from "./topic-content.vue";
 
-import { useTopicStore } from "~/stores/student/topic";
+import { useTopicStore, Topic } from "~/stores/student/topic";
 
-const topicStore = useTopicStore();
+const tS = useTopicStore();
 
 const topicId = ref(-1);
+const topicContent = ref({} as Topic);
 (async () => {
-  topicId.value = await topicStore.getSelectedTopicId();
+  if (tS.list.length) {
+    topicContent.value = tS.list.find((e) => e.id === topicId.value)!;
+  } else {
+    topicContent.value = await tS.getSelectedTopic();
+  }
 })();
 </script>
 
-<style scoped lang="scss">
-.ui-topic-container {
-  width: 800px;
-}
-.ui-topic-section {
-  border-radius: 4px;
-  margin-bottom: 1rem;
-  background-color: var(--q-primary);
-}
-.ui-topic-section-item {
-  height: 3rem;
-  padding: 0.5rem 1.5rem;
-}
-.ui-topic-section-item:not(:last-child) {
-  border-bottom: 1px solid var(--q-negative);
-}
-.ui-topic-input {
-  width: 300px;
-  height: 2rem;
-  border-radius: 4px;
-  background-color: var(--q-negative);
-}
-</style>
+<style scoped lang="scss"></style>
 
 <route lang="yaml">
 alias: selected-topic

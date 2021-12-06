@@ -1,26 +1,31 @@
-import { useUserStore } from "../user";
+import { User, Topic as TopicBase } from "~/api";
 
-const userStore = useUserStore();
+export interface Topic extends TopicBase {
+  teacher: User | null;
+}
 
 export const useTopicStore = defineStore("topic", {
   state: () => ({
     list: [
       {
         id: -1,
+        teacherId: -1,
+        studentId: -1,
         title: "测试课题",
         difficulty: "难",
         description: "",
         requirement: "",
         createTime: "",
-        teacher: {} as Partial<typeof userStore>,
+        updateTime: "",
+        teacher: {} as User,
       },
     ],
   }),
   actions: {
     async getTopicList() {},
-    async getSelectedTopicId() {
-      return -1;
+    async getSelectedTopic() {
+      return {} as Topic;
     },
-    async setSelectedTopicId(id: number) {},
+    async setSelectedTopic(id: number) {},
   },
 });

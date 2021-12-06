@@ -14,23 +14,23 @@
 <script setup lang="ts">
 import { useUserStore } from "~/stores/user";
 
-const userStore = useUserStore();
+const uS = useUserStore();
 
 const generatedTabs = computed(() => {
-  switch (userStore.role) {
-    case "admin":
+  switch (uS.role) {
+    case "管理员":
       return [
         { name: "notice", label: "系统公告" },
         { name: "user", label: "用户管理" },
         { name: "bysj", label: "系统管理" },
       ];
-    case "teacher":
+    case "教师":
       return [
         { name: "notice", label: "系统公告" },
         { name: "my-topic", label: "我的课题" },
-        { name: "wait-list", label: "选择学生" },
+        { name: "selected-student", label: "已选学生" },
       ];
-    case "student":
+    case "学生":
       return [
         { name: "notice", label: "系统公告" },
         { name: "topic-list", label: "课题列表" },
