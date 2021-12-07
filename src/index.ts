@@ -24,12 +24,12 @@ Notify.setDefaults({
 Notify.registerType("error", {
   color: "error",
   timeout: 2000,
-  icon: "warning",
+  icon: "bi-exclamation",
 });
 Notify.registerType("ask", {
   color: "info",
   timeout: 0,
-  icon: "help",
+  icon: "bi-question",
   position: "center",
 });
 const quasarConfig = {
@@ -51,11 +51,4 @@ const router = createRouter({
 });
 
 // 生成app实例
-const app = createApp(App).use(Quasar, quasarConfig).use(router).use(createPinia());
-
-// 挂载app
-app.mount("#app");
-// 关闭页面前卸载app
-window.addEventListener("beforeunload", () => {
-  app.unmount();
-});
+createApp(App).use(Quasar, quasarConfig).use(router).use(createPinia()).mount("#app");

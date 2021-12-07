@@ -6,15 +6,36 @@
 import { useAppStore } from "~/stores/app";
 
 const $q = useQuasar();
-
 // 颜色主题为自动模式
 $q.dark.set("auto");
 
-const appStore = useAppStore();
+const router = useRouter();
+const aS = useAppStore();
+// 监视用户在线状态
+aS.$subscribe(
+  (mutation, store) => {
+    let target = "";
+    if (store.loading) {
+      target = "/";
+    } else if (store.online) {
+      target = "/system";
+    } else {
+      target = "/sign";
+    }
+    router.push(target);
+  },
+  {
+    immediate: true,
+    detached: true,
+  }
+);
 
+// 模拟加载数据的耗时过程
 setTimeout(() => {
-  appStore.loading = false;
-}, 1000);
+  aS.$patch({
+    loading: false,
+  });
+}, 2000);
 </script>
 
 <style lang="scss">

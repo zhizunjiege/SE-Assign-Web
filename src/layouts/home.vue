@@ -10,7 +10,7 @@
             <q-icon name="bi-person-circle" size="3rem" />
           </q-avatar>
           <div class="text-center">
-            <span>{{ uS.name }}</span>
+            <span class="text-subtitle1">{{ uS.name }}</span>
           </div>
           <q-badge :label="uS.role" />
           <q-menu fit>
@@ -22,7 +22,8 @@
               </q-item>
               <q-item v-close-popup clickable>
                 <q-item-section @click="signOut">
-                  <router-link to="/sign?mode=signOut" class="ui-router-link">安全登出</router-link>
+                  安全登出
+                  <!-- <router-link to="/sign?mode=signOut" class="ui-router-link"></router-link> -->
                 </q-item-section>
               </q-item>
             </q-list>
@@ -35,7 +36,7 @@
     </q-page-container>
     <q-footer elevated>
       <q-toolbar class="justify-end ui-home-footer-toolbar">
-        <q-icon :name="$q.dark.isActive ? 'bi-moon' : 'bi-sun'" @click="$q.dark.toggle()" class="ui-icon" />
+        <q-icon :name="$q.dark.isActive ? 'bi-moon' : 'bi-sun'" @click="$q.dark.toggle" class="ui-icon" />
         <q-space />
         <q-toolbar-title shrink class="ui-home-footer-title"> 15 - 扎不多得嘞队 © 2021 V1.0 </q-toolbar-title>
       </q-toolbar>
@@ -46,11 +47,24 @@
 <script setup lang="ts">
 import { useUserStore } from "~/stores/user";
 
+const $q = useQuasar();
 const uS = useUserStore();
 
 async function signOut() {
-  await uS.signOut();
-  alert("成功登出");
+  try {
+    await uS.signOut();
+    $q.notify({
+      type: "info",
+      message: "登出成功",
+    });
+  } catch (e) {
+    if (e instanceof Error) {
+      $q.notify({
+        type: "error",
+        message: "网络出错啦",
+      });
+    }
+  }
 }
 </script>
 

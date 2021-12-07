@@ -1,29 +1,62 @@
+import api from "~/api";
+import { digestMessage } from "~/utils";
+
+import { useAppStore } from "./app";
+
+const aS = useAppStore();
+
 export const useUserStore = defineStore("user", {
   state: () => ({
-    online: false, // 是否在线
-
     id: -1, // 用户id
-    // group: "", // 权限组
-    role: "教师", // 角色身份
-
-    username: "hh", // 账号
-    password: "hhhh", // 密码
-
-    // 系统直接导入的信息
-    name: "测试", // 姓名
-    gender: "男", // 性别
+    role: "", // 角色身份
+    username: "", // 账号
+    password: "", // 密码
+    name: "", // 姓名
+    gender: "", // 性别
     jobNum: "", // 学/工号
     class: "", // 班级，学生专有
     title: "", // 职称，教师专有
-    // 需要用户完善的信息
     major: "", // 主修专业/研究方向
     email: "", // 邮箱
     resume: "", // 个人简介
   }),
   getters: {},
   actions: {
-    async signIn() {},
-    async signOut() {},
+    async signIn() {
+      /* const hashPwd = await digestMessage(this.password);
+      const res = await api.user.signIn({
+        username: this.username,
+        password: hashPwd,
+      }); */
+
+      const res = {
+        data: {
+          id: 0,
+          role: "学生",
+          username: "账号",
+          password: "",
+          name: "姓名",
+          gender: "男",
+          jobNum: "学/工号",
+          class: "班级",
+          title: "职称",
+          major: "主修专业/研究方向",
+          email: "邮箱",
+          resume: "个人简介",
+        },
+      }; // 测试数据
+      Object.assign(this.$state, res.data);
+      aS.$patch({
+        online: true,
+      });
+    },
+    async signOut() {
+      /* await api.user.signOut(); */
+      this.$reset();
+      aS.$patch({
+        online: false,
+      });
+    },
     async changePwd(oldPwd: string, newPwd: string) {},
     async changeDetails() {},
 

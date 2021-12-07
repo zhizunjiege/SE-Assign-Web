@@ -169,7 +169,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title 高等软件工程团队大作业项目API规范
- * @version 1.0.0
+ * @version 1.1.0
  * @baseUrl http://localhost/api
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
@@ -179,7 +179,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags user
      * @name CreateUser
-     * @summary Create a new user
+     * @summary Create a user
      * @request POST:/user
      */
     createUser: (body: User, params: RequestParams = {}) =>
@@ -193,17 +193,116 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
+     * No description
+     *
+     * @tags user
+     * @name GetUser
+     * @summary Get a user
+     * @request GET:/user/{userId}
+     */
+    getUser: (userId: number, params: RequestParams = {}) =>
+      this.request<User, any>({
+        path: `/user/${userId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags user
+     * @name UpdateUser
+     * @summary Update a user
+     * @request PUT:/user/{userId}
+     */
+    updateUser: (userId: number, body: User, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/user/${userId}`,
+        method: "PUT",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
      * @description This can only be done by administrator
      *
      * @tags user
-     * @name CreateUsersWithList
-     * @summary Create list of users with given input array
-     * @request POST:/user/createWithList
+     * @name DeleteUser
+     * @summary Delete a user
+     * @request DELETE:/user/{userId}
      */
-    createUsersWithList: (body: User[], params: RequestParams = {}) =>
+    deleteUser: (userId: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/user/createWithList`,
+        path: `/user/${userId}`,
+        method: "DELETE",
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags user
+     * @name GetUsers
+     * @summary Get users
+     * @request GET:/user/list
+     */
+    getUsers: (params: RequestParams = {}) =>
+      this.request<User[], any>({
+        path: `/user/list`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description This can only be done by administrator
+     *
+     * @tags user
+     * @name CreateUsers
+     * @summary Create users
+     * @request POST:/user/list
+     */
+    createUsers: (body: User[], params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/user/list`,
         method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags user
+     * @name UpdateUsers
+     * @summary Update users
+     * @request PUT:/user/list
+     */
+    updateUsers: (body: User[], params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/user/list`,
+        method: "PUT",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description This can only be done by administrator
+     *
+     * @tags user
+     * @name DeleteUsers
+     * @summary Delete users
+     * @request DELETE:/user/list
+     */
+    deleteUsers: (body: number[], params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/user/list`,
+        method: "DELETE",
         body: body,
         type: ContentType.Json,
         ...params,
@@ -218,7 +317,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/signin
      */
     signIn: (query: { username: string; password: string }, params: RequestParams = {}) =>
-      this.request<string, void>({
+      this.request<User, any>({
         path: `/user/signin`,
         method: "GET",
         query: query,
@@ -240,115 +339,35 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         ...params,
       }),
-
-    /**
-     * No description
-     *
-     * @tags user
-     * @name GetUserById
-     * @summary Get user by id
-     * @request GET:/user/{userId}
-     */
-    getUserById: (userId: number, params: RequestParams = {}) =>
-      this.request<User, any>({
-        path: `/user/${userId}`,
-        method: "GET",
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags user
-     * @name UpdateUser
-     * @summary Update user by id
-     * @request PUT:/user/{userId}
-     */
-    updateUser: (userId: number, body: User, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/user/${userId}`,
-        method: "PUT",
-        body: body,
-        type: ContentType.Json,
-        ...params,
-      }),
-
-    /**
-     * @description This can only be done by administrator
-     *
-     * @tags user
-     * @name DeleteUser
-     * @summary Delete user by id
-     * @request DELETE:/user/{userId}
-     */
-    deleteUser: (userId: number, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/user/${userId}`,
-        method: "DELETE",
-        ...params,
-      }),
   };
   topic = {
     /**
      * No description
      *
      * @tags topic
-     * @name AddTopic
-     * @summary Add a new topic
+     * @name CreateTopic
+     * @summary Create a topic
      * @request POST:/topic
      */
-    addTopic: (body: Topic, params: RequestParams = {}) =>
-      this.request<void, any>({
+    createTopic: (body: Topic, params: RequestParams = {}) =>
+      this.request<number, any>({
         path: `/topic`,
         method: "POST",
         body: body,
         type: ContentType.Json,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags topic
-     * @name GetTopicList
-     * @summary Get topic list
-     * @request GET:/topic/getList
-     */
-    getTopicList: (params: RequestParams = {}) =>
-      this.request<Topic[], any>({
-        path: `/topic/getList`,
-        method: "GET",
         format: "json",
         ...params,
       }),
 
     /**
-     * @description Student choose a topic
-     *
-     * @tags topic
-     * @name ChooseTopic
-     * @summary Choose a topic
-     * @request POST:/topic/choose
-     */
-    chooseTopic: (body: { topicId: number; studentId: number }, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/topic/choose`,
-        method: "POST",
-        body: body,
-        type: ContentType.Json,
-        ...params,
-      }),
-
-    /**
      * No description
      *
      * @tags topic
-     * @name GetTopicById
-     * @summary Get topic by id
+     * @name GetTopic
+     * @summary Get a topic
      * @request GET:/topic/{topicId}
      */
-    getTopicById: (topicId: number, params: RequestParams = {}) =>
+    getTopic: (topicId: number, params: RequestParams = {}) =>
       this.request<Topic, any>({
         path: `/topic/${topicId}`,
         method: "GET",
@@ -361,7 +380,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags topic
      * @name UpdateTopic
-     * @summary Update topic by id
+     * @summary Update a topic
      * @request PUT:/topic/{topicId}
      */
     updateTopic: (topicId: number, body: Topic, params: RequestParams = {}) =>
@@ -374,17 +393,101 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * No description
+     * @description This can only be done by administrator
      *
      * @tags topic
      * @name DeleteTopic
-     * @summary Delete topic by id
+     * @summary Delete a topic
      * @request DELETE:/topic/{topicId}
      */
     deleteTopic: (topicId: number, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/topic/${topicId}`,
         method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags topic
+     * @name GetTopics
+     * @summary Get topics
+     * @request GET:/topic/list
+     */
+    getTopics: (params: RequestParams = {}) =>
+      this.request<Topic[], any>({
+        path: `/topic/list`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags topic
+     * @name CreateTopics
+     * @summary Create topics
+     * @request POST:/topic/list
+     */
+    createTopics: (body: Topic[], params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/topic/list`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags topic
+     * @name UpdateTopics
+     * @summary Update topics
+     * @request PUT:/topic/list
+     */
+    updateTopics: (body: Topic[], params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/topic/list`,
+        method: "PUT",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description This can only be done by administrator
+     *
+     * @tags topic
+     * @name DeleteTopics
+     * @summary Delete topics
+     * @request DELETE:/topic/list
+     */
+    deleteTopics: (body: number[], params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/topic/list`,
+        method: "DELETE",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description This can only be done by student
+     *
+     * @tags topic
+     * @name ChooseTopic
+     * @summary Choose a topic
+     * @request POST:/topic/choose
+     */
+    chooseTopic: (body: { topicId: number; studentId: number }, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/topic/choose`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
         ...params,
       }),
   };

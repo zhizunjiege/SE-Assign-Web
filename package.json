@@ -2,6 +2,7 @@
   "name": "se-assign-web",
   "version": "0.0.0",
   "scripts": {
+    "tsn":"npx ts-node --skip-project",
     "dev": "vite --host 0.0.0.0",
     "api": "npx sta -p src/api/api.yaml -o src/api -n api.ts --axios && prettier src/api/api.ts --write",
     "build": "vue-tsc --noEmit && vite build",

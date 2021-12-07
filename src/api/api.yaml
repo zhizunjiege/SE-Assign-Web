@@ -1,32 +1,34 @@
 swagger: "2.0"
 info:
-  version: "1.0.0"
+  version: "1.1.0"
   title: "高等软件工程团队大作业项目API规范"
 host: "localhost"
 basePath: "/api"
 tags:
-- name: "user"
-- name: "topic"
+  - name: "user"
+  - name: "topic"
 schemes:
-- "http"
-- "https"
+  - "http"
+  - "https"
 paths:
   /user:
     post:
       tags:
-      - "user"
-      summary: "Create a new user"
+        - "user"
+      summary: "Create a user"
       description: "This can only be done by administrator"
       operationId: "createUser"
+      consumes:
+        - "application/json"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Created user object"
-        required: true
-        schema:
-          $ref: "#/definitions/User"
+        - in: "body"
+          name: "body"
+          description: "User object to be created"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
       responses:
         "200":
           description: "success"
@@ -34,53 +36,182 @@ paths:
             type: "integer"
             format: "int64"
             description: "Created user id"
-  /user/createWithList:
+  /user/{userId}:
+    get:
+      tags:
+        - "user"
+      summary: "Get a user"
+      description: ""
+      operationId: "getUser"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "userId"
+          description: "User id to be fetched"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "success"
+          schema:
+            $ref: "#/definitions/User"
+    put:
+      tags:
+        - "user"
+      summary: "Update a user"
+      description: ""
+      operationId: "updateUser"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "userId"
+          description: "User id to be updated"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          description: "User object to be updated"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "success"
+    delete:
+      tags:
+        - "user"
+      summary: "Delete a user"
+      description: "This can only be done by administrator"
+      operationId: "deleteUser"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "userId"
+          description: "User id to be deleted"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "success"
+  /user/list:
+    get:
+      tags:
+        - "user"
+      summary: "Get users"
+      description: ""
+      operationId: "getUsers"
+      produces:
+        - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
     post:
       tags:
-      - "user"
-      summary: "Create list of users with given input array"
+        - "user"
+      summary: "Create users"
       description: "This can only be done by administrator"
-      operationId: "createUsersWithList"
+      operationId: "createUsers"
+      consumes:
+        - "application/json"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
-        description: "List of user object"
-        required: true
-        schema:
-          type: "array"
-          items:
-            $ref: "#/definitions/User"
+        - in: "body"
+          name: "body"
+          description: "List of user object"
+          required: true
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "success"
+    put:
+      tags:
+        - "user"
+      summary: "Update users"
+      description: ""
+      operationId: "updateUsers"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "List of user object"
+          required: true
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "success"
+    delete:
+      tags:
+        - "user"
+      summary: "Delete users"
+      description: "This can only be done by administrator"
+      operationId: "deleteUsers"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "List of user id"
+          required: true
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+              format: "int64"
       responses:
         "200":
           description: "success"
   /user/signin:
     get:
       tags:
-      - "user"
+        - "user"
       summary: "User signin the system"
       description: ""
       operationId: "signIn"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: "query"
-        name: "username"
-        description: "The username for signin"
-        required: true
-        type: "string"
-      - in: "query"
-        name: "password"
-        description: "The password for signin in encrypted string"
-        required: true
-        type: "string"
+        - in: "query"
+          name: "username"
+          description: "The username for signin"
+          required: true
+          type: "string"
+        - in: "query"
+          name: "password"
+          description: "The password for signin in encrypted string"
+          required: true
+          type: "string"
       responses:
         "200":
           description: "success"
           schema:
-            type: "string"
-            description: "User token"
+            $ref: "#/definitions/User"
           headers:
             X-Rate-Limit:
               type: "integer"
@@ -90,114 +221,118 @@ paths:
               type: "string"
               format: "date-time"
               description: "date in UTC when token expires"
-        "400":
-          description: "Invalid username/password supplied"
   /user/signout:
     get:
       tags:
-      - "user"
+        - "user"
       summary: "User signout the system"
       description: ""
       operationId: "signOut"
       produces:
-      - "application/json"
+        - "application/json"
       parameters: []
-      responses:
-        "200":
-          description: "success"
-  /user/{userId}:
-    get:
-      tags:
-      - "user"
-      summary: "Get user by id"
-      description: ""
-      operationId: "getUserById"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "path"
-        name: "userId"
-        description: "The user id that needs to be fetched"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        "200":
-          description: "success"
-          schema:
-            $ref: "#/definitions/User"
-    put:
-      tags:
-      - "user"
-      summary: "Update user by id"
-      description: ""
-      operationId: "updateUser"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "path"
-        name: "userId"
-        description: "User id that need to be updated"
-        required: true
-        type: "integer"
-        format: "int64"
-      - in: "body"
-        name: "body"
-        description: "Updated user object"
-        required: true
-        schema:
-          $ref: "#/definitions/User"
-      responses:
-        "200":
-          description: "success"
-    delete:
-      tags:
-      - "user"
-      summary: "Delete user by id"
-      description: "This can only be done by administrator"
-      operationId: "deleteUser"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "path"
-        name: "userId"
-        description: "The user id that needs to be deleted"
-        required: true
-        type: "integer"
-        format: "int64"
       responses:
         "200":
           description: "success"
   /topic:
     post:
       tags:
-      - "topic"
-      summary: "Add a new topic"
+        - "topic"
+      summary: "Create a topic"
       description: ""
-      operationId: "addTopic"
+      operationId: "createTopic"
       consumes:
-      - "application/json"
+        - "application/json"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Topic object that needs to be added"
-        required: true
-        schema:
-          $ref: "#/definitions/Topic"
+        - in: "body"
+          name: "body"
+          description: "Topic object to be created"
+          required: true
+          schema:
+            $ref: "#/definitions/Topic"
       responses:
         "200":
           description: "success"
-  /topic/getList:
+          schema:
+            type: "integer"
+            format: "int64"
+            description: "Created topic id"
+  /topic/{topicId}:
     get:
       tags:
-      - "topic"
-      summary: "Get topic list"
+        - "topic"
+      summary: "Get a topic"
       description: ""
-      operationId: "getTopicList"
+      operationId: "getTopic"
       produces:
-      - "application/json"
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "topicId"
+          description: "Topic id to be fetched"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "success"
+          schema:
+            $ref: "#/definitions/Topic"
+    put:
+      tags:
+        - "topic"
+      summary: "Update a topic"
+      description: ""
+      operationId: "updateTopic"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "topicId"
+          description: "Topic id to be updated"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          description: "Topic object to be updated"
+          required: true
+          schema:
+            $ref: "#/definitions/Topic"
+      responses:
+        "200":
+          description: "success"
+    delete:
+      tags:
+        - "topic"
+      summary: "Delete a topic"
+      description: "This can only be done by administrator"
+      operationId: "deleteTopic"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "topicId"
+          description: "Topic id to be deleted"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "success"
+  /topic/list:
+    get:
+      tags:
+        - "topic"
+      summary: "Get topics"
+      description: ""
+      operationId: "getTopics"
+      produces:
+        - "application/json"
       parameters: []
       responses:
         "200":
@@ -206,97 +341,99 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Topic"
-  /topic/choose:
     post:
       tags:
-      - "topic"
-      summary: "Choose a topic"
-      description: "Student choose a topic"
-      operationId: "chooseTopic"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Topic id and student id"
-        required: true
-        schema:
-          type: "object"
-          required:
-            - topicId
-            - studentId
-          properties:
-            topicId:
-              type: "integer"
-              format: "int64"
-            studentId:
-              type: "integer"
-              format: "int64"
-      responses:
-        "200":
-          description: "success"
-  /topic/{topicId}:
-    get:
-      tags:
-      - "topic"
-      summary: "Get topic by id"
+        - "topic"
+      summary: "Create topics"
       description: ""
-      operationId: "getTopicById"
+      operationId: "createTopics"
+      consumes:
+        - "application/json"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: "path"
-        name: "topicId"
-        description: "Id of topic to return"
-        required: true
-        type: "integer"
-        format: "int64"
+        - in: "body"
+          name: "body"
+          description: "List of topic object"
+          required: true
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Topic"
       responses:
         "200":
           description: "success"
-          schema:
-            $ref: "#/definitions/Topic"
     put:
       tags:
-      - "topic"
-      summary: "Update topic by id"
+        - "topic"
+      summary: "Update topics"
       description: ""
-      operationId: "updateTopic"
+      operationId: "updateTopics"
       consumes:
-      - "application/json"
+        - "application/json"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Topic object that needs to be updated"
-        required: true
-        schema:
-          $ref: "#/definitions/Topic"
-      - in: "path"
-        name: "topicId"
-        description: "Topic id that needs to be updated"
-        required: true
-        type: "integer"
-        format: "int64"
+        - in: "body"
+          name: "body"
+          description: "List of topic object"
+          required: true
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Topic"
       responses:
         "200":
           description: "success"
     delete:
       tags:
-      - "topic"
-      summary: "Delete topic by id"
-      description: ""
-      operationId: "deleteTopic"
+        - "topic"
+      summary: "Delete topics"
+      description: "This can only be done by administrator"
+      operationId: "deleteTopics"
+      consumes:
+        - "application/json"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: "path"
-        name: "topicId"
-        description: "Topic id to delete"
-        required: true
-        type: "integer"
-        format: "int64"
+        - in: "body"
+          name: "body"
+          description: "List of topic id"
+          required: true
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+              format: "int64"
+      responses:
+        "200":
+          description: "success"
+  /topic/choose:
+    post:
+      tags:
+        - "topic"
+      summary: "Choose a topic"
+      description: "This can only be done by student"
+      operationId: "chooseTopic"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Topic id and student id"
+          required: true
+          schema:
+            type: "object"
+            required:
+              - topicId
+              - studentId
+            properties:
+              topicId:
+                type: "integer"
+                format: "int64"
+              studentId:
+                type: "integer"
+                format: "int64"
       responses:
         "200":
           description: "success"

@@ -12,17 +12,23 @@
 </template>
 
 <script setup lang="ts">
+import { useAppStore } from "~/stores/app";
 import { useUserStore } from "~/stores/user";
 
-const uS = useUserStore();
+const router = useRouter();
+const aS = useAppStore();
+if (!aS.online) {
+  router.push("/sign");
+}
 
+const uS = useUserStore();
 const generatedTabs = computed(() => {
   switch (uS.role) {
     case "管理员":
       return [
         { name: "notice", label: "系统公告" },
         { name: "user", label: "用户管理" },
-        { name: "bysj", label: "系统管理" },
+        { name: "bysj", label: "课题管理" },
       ];
     case "教师":
       return [

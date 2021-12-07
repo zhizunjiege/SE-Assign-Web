@@ -4,7 +4,7 @@ export interface Topic extends TopicBase {
   teacher: User | null;
 }
 
-export const useTopicStore = defineStore("topic", {
+export const useTopicStore = defineStore("topic-teacher", {
   state: () => ({
     id: -1,
     teacherId: -1,

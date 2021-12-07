@@ -5,7 +5,7 @@
         <q-icon name="bi-person-circle" size="8rem" />
       </q-avatar>
       <div class="text-center">
-        <h5>{{ uS.name }}</h5>
+        <h4>{{ uS.name }}</h4>
       </div>
       <q-badge :label="uS.role" class="text-subtitle1" />
     </div>
