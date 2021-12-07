@@ -20,7 +20,6 @@ export const useUserStore = defineStore("user", {
     email: "", // 邮箱
     resume: "", // 个人简介
   }),
-  getters: {},
   actions: {
     async signIn() {
       /* const hashPwd = await digestMessage(this.password);
@@ -28,7 +27,6 @@ export const useUserStore = defineStore("user", {
         username: this.username,
         password: hashPwd,
       }); */
-
       const res = {
         data: {
           id: 0,
@@ -57,9 +55,25 @@ export const useUserStore = defineStore("user", {
         online: false,
       });
     },
-    async changePwd(oldPwd: string, newPwd: string) {},
-    async changeDetails() {},
 
-    async getUserInfo(userId: number) {},
+    async updatePassword(oldPwd: string, newPwd: string) {
+      /* const oldPwdHash = await digestMessage(oldPwd);
+      const newPwdHash = await digestMessage(newPwd);
+      await api.user.updatePassword({
+        userId: this.id,
+        oldPwd: oldPwdHash,
+        newPwd: newPwdHash,
+      }); */
+    },
+    async updateDetails() {
+      /* await api.user.updateUser(this.id, {
+        email: this.email,
+        resume: this.resume,
+      }); */
+    },
+
+    async getTeacherInfo(teacherId: number) {
+      /* return api.user.getUser(teacherId); */
+    },
   },
 });

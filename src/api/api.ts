@@ -339,6 +339,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         ...params,
       }),
+
+    /**
+     * No description
+     *
+     * @tags user
+     * @name UpdatePassword
+     * @summary User update password
+     * @request POST:/user/password
+     */
+    updatePassword: (body: { userId: number; oldPwd: string; newPwd: string }, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/user/password`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
   };
   topic = {
     /**
@@ -482,7 +499,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Choose a topic
      * @request POST:/topic/choose
      */
-    chooseTopic: (body: { topicId: number; studentId: number }, params: RequestParams = {}) =>
+    chooseTopic: (body: { topicId: number; userId: number }, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/topic/choose`,
         method: "POST",

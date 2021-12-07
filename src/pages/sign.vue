@@ -32,13 +32,13 @@ async function signIn() {
       await uS.signIn();
       $q.notify({
         type: "info",
-        message: "登陆成功",
+        message: "登陆成功啦",
       });
     } catch (e) {
       if (e instanceof Error) {
         $q.notify({
           type: "error",
-          message: "网络出错啦",
+          message: "网络出错了(*꒦ິ⌓꒦ີ)",
         });
       }
     }

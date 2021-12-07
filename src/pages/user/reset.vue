@@ -4,25 +4,43 @@
       <tr>
         <td>旧密码</td>
         <td>
-          <q-input v-model="oldPwd" type="password" standout class="float-right ui-reset-input" />
+          <q-input
+            v-model="oldPwd"
+            type="password"
+            standout
+            placeholder="8到16位大小写字母或数字"
+            class="float-right ui-reset-input"
+          />
         </td>
       </tr>
       <tr>
         <td>新密码</td>
         <td>
-          <q-input v-model="newPwd" type="password" standout class="float-right ui-reset-input" />
+          <q-input
+            v-model="newPwd"
+            type="password"
+            standout
+            placeholder="8到16位大小写字母或数字"
+            class="float-right ui-reset-input"
+          />
         </td>
       </tr>
       <tr>
         <td>确认密码</td>
         <td>
-          <q-input v-model="repeatPwd" type="password" standout class="float-right ui-reset-input" />
+          <q-input
+            v-model="repeatPwd"
+            type="password"
+            standout
+            placeholder="8到16位大小写字母或数字"
+            class="float-right ui-reset-input"
+          />
         </td>
       </tr>
     </tbody>
   </q-markup-table>
   <div class="q-mx-auto q-my-lg flex justify-end ui-reset-btn-group">
-    <q-btn label="确认" class="bg-primary ui-reset-btn" @click="changePwd" />
+    <q-btn label="确认" class="bg-primary ui-reset-btn" @click="updatePassword" />
   </div>
 </template>
 
@@ -36,18 +54,36 @@ const oldPwd = ref("");
 const newPwd = ref("");
 const repeatPwd = ref("");
 
-async function changePwd() {
-  if (newPwd.value !== repeatPwd.value) {
+const pReg = /^[a-zA-Z0-9]{8,16}$/;
+async function updatePassword() {
+  if (!pReg.test(oldPwd.value) || !pReg.test(newPwd.value)) {
     $q.notify({
       type: "warning",
-      message: "确认密码与新密码不一致！",
+      message: "旧密码或新密码格式不对哦",
+    });
+  } else if (newPwd.value !== repeatPwd.value) {
+    $q.notify({
+      type: "warning",
+      message: "确认密码与新密码不一致呀",
     });
   } else {
-    oldPwd.value = "";
-    newPwd.value = "";
-    repeatPwd.value = "";
-    await uS.changePwd(oldPwd.value, newPwd.value);
-    alert("密码修改成功");
+    try {
+      await uS.updatePassword(oldPwd.value, newPwd.value);
+      oldPwd.value = "";
+      newPwd.value = "";
+      repeatPwd.value = "";
+      $q.notify({
+        type: "info",
+        message: "密码修改成功啦",
+      });
+    } catch (e) {
+      if (e instanceof Error) {
+        $q.notify({
+          type: "error",
+          message: "网络出错了(*꒦ິ⌓꒦ີ)",
+        });
+      }
+    }
   }
 }
 </script>

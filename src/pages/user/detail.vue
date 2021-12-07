@@ -46,11 +46,11 @@
     </tbody>
   </q-markup-table>
   <div class="flex items-center justify-end ui-detail-sep">
-    <q-icon v-if="!detDisabled" name="bi-check2" size="1.5rem" class="q-mr-sm ui-icon" @click="changeDetails">
+    <q-icon v-if="!detDis" name="bi-check2" size="1.5rem" class="q-mr-sm ui-icon" @click="updateDetails">
       <q-tooltip anchor="top right" self="center left">确认修改</q-tooltip>
     </q-icon>
-    <q-icon :name="detDisabled ? 'bi-pencil' : 'bi-x-lg'" size="1.1rem" class="ui-icon" @click="detDisabled = !detDisabled">
-      <q-tooltip anchor="top right" self="center left">{{ detDisabled ? "修改信息" : "取消修改" }}</q-tooltip>
+    <q-icon :name="detDis ? 'bi-pencil' : 'bi-x-lg'" size="1.1rem" class="ui-icon" @click="detDis = !detDis">
+      <q-tooltip anchor="top right" self="center left">{{ detDis ? "修改信息" : "取消修改" }}</q-tooltip>
     </q-icon>
   </div>
   <q-markup-table separator="horizontal" class="q-mx-auto ui-detail-table">
@@ -58,7 +58,7 @@
       <tr>
         <td>邮箱</td>
         <td>
-          <q-input v-model="uS.email" standout class="float-right ui-detail-text" :disable="detDisabled" />
+          <q-input v-model="uS.email" standout class="float-right ui-detail-text" :disable="detDis" />
         </td>
       </tr>
       <tr>
@@ -70,7 +70,7 @@
             standout
             rows="10"
             class="float-right ui-detail-textarea"
-            :disable="detDisabled"
+            :disable="detDis"
           />
         </td>
       </tr>
@@ -81,14 +81,25 @@
 <script setup lang="ts">
 import { useUserStore } from "~/stores/user";
 
+const $q = useQuasar();
 const uS = useUserStore();
-
-const detDisabled = ref(true);
-
-async function changeDetails() {
-  detDisabled.value = true;
-  await uS.changeDetails();
-  alert("信息修改成功");
+const detDis = ref(true);
+async function updateDetails() {
+  try {
+    detDis.value = true;
+    await uS.updateDetails();
+    $q.notify({
+      type: "info",
+      message: "修改信息成功",
+    });
+  } catch (e) {
+    if (e instanceof Error) {
+      $q.notify({
+        type: "error",
+        message: "网络出错啦",
+      });
+    }
+  }
 }
 </script>
 

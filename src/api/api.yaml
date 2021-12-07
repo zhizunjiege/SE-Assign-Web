@@ -234,6 +234,37 @@ paths:
       responses:
         "200":
           description: "success"
+  /user/password:
+    post:
+      tags:
+        - "user"
+      summary: "User update password"
+      description: ""
+      operationId: "updatePassword"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "The old pwd and new pwd"
+          required: true
+          schema:
+            type: "object"
+            required:
+              - userId
+              - oldPwd
+              - newPwd
+            properties:
+              userId:
+                type: "integer"
+                format: "int64"
+              oldPwd:
+                type: "string"
+              newPwd:
+                type: "string"
+      responses:
+        "200":
+          description: "success"
   /topic:
     post:
       tags:
@@ -420,18 +451,18 @@ paths:
       parameters:
         - in: "body"
           name: "body"
-          description: "Topic id and student id"
+          description: "Topic id and user id"
           required: true
           schema:
             type: "object"
             required:
               - topicId
-              - studentId
+              - userId
             properties:
               topicId:
                 type: "integer"
                 format: "int64"
-              studentId:
+              userId:
                 type: "integer"
                 format: "int64"
       responses:
