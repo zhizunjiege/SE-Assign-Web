@@ -20,12 +20,12 @@
         </td>
       </tr>
       <tr>
-        <td>{{ uS.role === "teacher" ? "工号" : "学号" }}</td>
+        <td>{{ uS.role === "教师" ? "工号" : "学号" }}</td>
         <td>
           <q-input v-model="uS.jobNum" standout class="float-right ui-detail-text" disable />
         </td>
       </tr>
-      <tr v-if="uS.role === 'teacher'">
+      <tr v-if="uS.role === '教师'">
         <td>职称</td>
         <td>
           <q-input v-model="uS.title" standout class="float-right ui-detail-text" disable />
@@ -38,7 +38,7 @@
         </td>
       </tr>
       <tr>
-        <td>{{ uS.role === "teacher" ? "研究方向" : "主修专业" }}</td>
+        <td>{{ uS.role === "教师" ? "研究方向" : "主修专业" }}</td>
         <td>
           <q-input v-model="uS.major" standout class="float-right ui-detail-text" disable />
         </td>

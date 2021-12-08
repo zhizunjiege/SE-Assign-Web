@@ -4,13 +4,13 @@
       <tr>
         <td>标题</td>
         <td>
-          <q-input v-model="tS.title" standout class="float-right ui-topic-text" />
+          <q-input v-model="tS.topic.title" standout class="float-right ui-topic-text" />
         </td>
       </tr>
       <tr>
-        <td>课题难度</td>
+        <td>难度</td>
         <td>
-          <q-input v-model="tS.difficulty" standout class="float-right ui-topic-text" />
+          <q-input v-model="tS.topic.difficulty" standout class="float-right ui-topic-text" />
         </td>
       </tr>
     </tbody>
@@ -20,30 +20,43 @@
       <tr>
         <td>课题简介</td>
         <td>
-          <q-input v-model="tS.description" type="textarea" standout rows="10" class="float-right ui-topic-textarea" />
+          <q-input v-model="tS.topic.description" type="textarea" standout rows="10" class="float-right ui-topic-textarea" />
         </td>
       </tr>
       <tr>
         <td>学生要求</td>
         <td>
-          <q-input v-model="tS.requirement" type="textarea" standout rows="10" class="float-right ui-topic-textarea" />
+          <q-input v-model="tS.topic.requirement" type="textarea" standout rows="10" class="float-right ui-topic-textarea" />
         </td>
       </tr>
     </tbody>
   </q-markup-table>
   <div class="q-mx-auto q-my-lg flex justify-end ui-topic-btn-group">
-    <q-btn :label="tS.id < 0 ? '新建课题' : '修改课题'" class="bg-primary ui-topic-btn" @click="setTopic" />
+    <q-btn :label="tS.topic.id! < 0 ? '新建课题' : '修改课题'" class="bg-primary ui-topic-btn" @click="setTopic" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useTopicStore } from "~/stores/teacher/topic";
 
+const $q = useQuasar();
 const tS = useTopicStore();
 
 async function setTopic() {
-  await tS.setTopic();
-  alert("课题修改成功");
+  try {
+    await tS.setTopic();
+    $q.notify({
+      type: "info",
+      message: "新建或修改课题成功啦",
+    });
+  } catch (e) {
+    if (e instanceof Error) {
+      $q.notify({
+        type: "error",
+        message: "网络出错了(*꒦ິ⌓꒦ີ)",
+      });
+    }
+  }
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="q-mx-auto ui-student-container">
-    <div v-if="tS.studentId >= 0" class="ui-student-section">
+    <div v-if="tS.student.id && tS.student.id >= 0" class="ui-student-section">
       <div class="row flex-center ui-student-section-item">学生信息</div>
       <div class="row items-center justify-between ui-student-section-item">
         <div class="col-4">姓名</div>

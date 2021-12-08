@@ -30,7 +30,7 @@ export const useUserStore = defineStore("user", {
       const res = {
         data: {
           id: 0,
-          role: "学生",
+          role: "教师",
           username: "账号",
           password: "",
           name: "姓名",
@@ -70,10 +70,6 @@ export const useUserStore = defineStore("user", {
         email: this.email,
         resume: this.resume,
       }); */
-    },
-
-    async getTeacherInfo(teacherId: number) {
-      /* return api.user.getUser(teacherId); */
     },
   },
 });

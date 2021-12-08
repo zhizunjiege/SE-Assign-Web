@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  version: "1.1.0"
+  version: "1.2.0"
   title: "高等软件工程团队大作业项目API规范"
 host: "localhost"
 basePath: "/api"
@@ -108,11 +108,22 @@ paths:
       tags:
         - "user"
       summary: "Get users"
-      description: ""
+      description: "If user id array is empty, return all user"
       operationId: "getUsers"
+      consumes:
+        - "application/json"
       produces:
         - "application/json"
-      parameters: []
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "List of user id"
+          required: true
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+              format: "int64"
       responses:
         "200":
           description: "success"
@@ -230,7 +241,12 @@ paths:
       operationId: "signOut"
       produces:
         - "application/json"
-      parameters: []
+      parameters:
+        - in: "query"
+          name: "username"
+          description: "The username for signout"
+          required: true
+          type: "string"
       responses:
         "200":
           description: "success"
@@ -246,7 +262,7 @@ paths:
       parameters:
         - in: "body"
           name: "body"
-          description: "The old pwd and new pwd"
+          description: "User id, old pwd and new pwd"
           required: true
           schema:
             type: "object"
@@ -360,11 +376,22 @@ paths:
       tags:
         - "topic"
       summary: "Get topics"
-      description: ""
+      description: "If topic id array is empty, return all topic"
       operationId: "getTopics"
+      consumes:
+        - "application/json"
       produces:
         - "application/json"
-      parameters: []
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "List of topic id"
+          required: true
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+              format: "int64"
       responses:
         "200":
           description: "success"
@@ -440,34 +467,75 @@ paths:
         "200":
           description: "success"
   /topic/choose:
+    get:
+      tags:
+        - "topic"
+      summary: "Get chosen topic"
+      description: "This can only be done by student"
+      operationId: "getChosenTopic"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "query"
+          name: "userId"
+          description: "User id"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "success"
+          schema:
+            $ref: "#/definitions/Topic"
     post:
       tags:
         - "topic"
       summary: "Choose a topic"
       description: "This can only be done by student"
-      operationId: "chooseTopic"
+      operationId: "setChosenTopic"
       produces:
         - "application/json"
       parameters:
         - in: "body"
           name: "body"
-          description: "Topic id and user id"
+          description: "User id and topic id"
           required: true
           schema:
             type: "object"
             required:
-              - topicId
               - userId
+              - topicId
             properties:
-              topicId:
+              userId:
                 type: "integer"
                 format: "int64"
-              userId:
+              topicId:
                 type: "integer"
                 format: "int64"
       responses:
         "200":
           description: "success"
+  /topic/publish:
+    get:
+      tags:
+        - "topic"
+      summary: "Get published topic"
+      description: "This can only be done by teacher"
+      operationId: "getPublishedTopic"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "query"
+          name: "userId"
+          description: "User id"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "success"
+          schema:
+            $ref: "#/definitions/Topic"
 definitions:
   User:
     type: "object"

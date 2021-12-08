@@ -242,17 +242,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * No description
+     * @description If user id array is empty, return all user
      *
      * @tags user
      * @name GetUsers
      * @summary Get users
      * @request GET:/user/list
      */
-    getUsers: (params: RequestParams = {}) =>
+    getUsers: (body: number[], params: RequestParams = {}) =>
       this.request<User[], any>({
         path: `/user/list`,
         method: "GET",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -333,10 +335,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary User signout the system
      * @request GET:/user/signout
      */
-    signOut: (params: RequestParams = {}) =>
+    signOut: (query: { username: string }, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/user/signout`,
         method: "GET",
+        query: query,
         ...params,
       }),
 
@@ -425,17 +428,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * No description
+     * @description If topic id array is empty, return all topic
      *
      * @tags topic
      * @name GetTopics
      * @summary Get topics
      * @request GET:/topic/list
      */
-    getTopics: (params: RequestParams = {}) =>
+    getTopics: (body: number[], params: RequestParams = {}) =>
       this.request<Topic[], any>({
         path: `/topic/list`,
         method: "GET",
+        body: body,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -495,16 +500,50 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @description This can only be done by student
      *
      * @tags topic
-     * @name ChooseTopic
+     * @name GetChosenTopic
+     * @summary Get chosen topic
+     * @request GET:/topic/choose
+     */
+    getChosenTopic: (query: { userId: number }, params: RequestParams = {}) =>
+      this.request<Topic, any>({
+        path: `/topic/choose`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description This can only be done by student
+     *
+     * @tags topic
+     * @name SetChosenTopic
      * @summary Choose a topic
      * @request POST:/topic/choose
      */
-    chooseTopic: (body: { topicId: number; userId: number }, params: RequestParams = {}) =>
+    setChosenTopic: (body: { userId: number; topicId: number }, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/topic/choose`,
         method: "POST",
         body: body,
         type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description This can only be done by teacher
+     *
+     * @tags topic
+     * @name GetPublishedTopic
+     * @summary Get published topic
+     * @request GET:/topic/publish
+     */
+    getPublishedTopic: (query: { userId: number }, params: RequestParams = {}) =>
+      this.request<Topic, any>({
+        path: `/topic/publish`,
+        method: "GET",
+        query: query,
+        format: "json",
         ...params,
       }),
   };

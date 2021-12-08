@@ -1,21 +1,26 @@
 <template>
-  <TopicContent :topic="topicContent" />
+  <TopicContent :topic="tS.chosen" />
+  <div class="q-my-lg"></div>
 </template>
 
 <script setup lang="ts">
 import TopicContent from "./topic-content.vue";
 
-import { useTopicStore, Topic } from "~/stores/student/topic";
+import { useTopicStore } from "~/stores/student/topic";
 
+const $q = useQuasar();
 const tS = useTopicStore();
 
-const topicId = ref(-1);
-const topicContent = ref({} as Topic);
 (async () => {
-  if (tS.list.length) {
-    topicContent.value = tS.list.find((e) => e.id === topicId.value)!;
-  } else {
-    topicContent.value = await tS.getSelectedTopic();
+  try {
+    await tS.getChosenTopic();
+  } catch (e) {
+    if (e instanceof Error) {
+      $q.notify({
+        type: "error",
+        message: "网络出错了(*꒦ິ⌓꒦ີ)",
+      });
+    }
   }
 })();
 </script>

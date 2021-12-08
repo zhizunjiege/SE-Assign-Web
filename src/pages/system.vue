@@ -57,6 +57,7 @@ const generatedTabs = computed(() => {
   position: sticky;
   top: 4rem;
   border-bottom: 1px solid var(--q-negative);
+  z-index: 100;
 }
 </style>
 

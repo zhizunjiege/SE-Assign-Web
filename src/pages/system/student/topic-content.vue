@@ -1,9 +1,14 @@
 <template>
-  <h5 class="q-my-lg text-center">{{ props.topic.title }}</h5>
-  <div class="q-mx-auto ui-topic-container">
+  <div v-if="props.topic" class="q-mx-auto ui-topic-container">
     <div class="ui-topic-section">
       <div class="row items-center justify-between ui-topic-section-item">
-        <div class="col-4">课题难度</div>
+        <div class="col-4">标题</div>
+        <div class="col-8">
+          <div class="float-right flex items-center ui-topic-single">{{ props.topic.title }}</div>
+        </div>
+      </div>
+      <div class="row items-center justify-between ui-topic-section-item">
+        <div class="col-4">难度</div>
         <div class="col-8">
           <div class="float-right flex items-center ui-topic-single">{{ props.topic.difficulty }}</div>
         </div>
@@ -12,6 +17,12 @@
         <div class="col-4">发布时间</div>
         <div class="col-8">
           <div class="float-right flex items-center ui-topic-single">{{ props.topic.createTime }}</div>
+        </div>
+      </div>
+      <div class="row items-center justify-between ui-topic-section-item">
+        <div class="col-4">更新时间</div>
+        <div class="col-8">
+          <div class="float-right flex items-center ui-topic-single">{{ props.topic.updateTime }}</div>
         </div>
       </div>
     </div>
@@ -81,7 +92,7 @@
 import { Topic } from "~/stores/student/topic";
 
 const props = defineProps<{
-  topic: Topic;
+  topic?: Topic;
 }>();
 </script>
 

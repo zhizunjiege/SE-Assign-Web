@@ -58,13 +58,12 @@ option {
   height: 8px;
   background-color: var(--q-primary);
 }
-
-::-webkit-scrollbar-track {
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
   background-color: var(--q-secondary);
 }
-
 ::-webkit-scrollbar-thumb {
   border-radius: 4px;
-  background-color: var(--q-positive);
+  background-color: var(--q-info);
 }
 </style>
