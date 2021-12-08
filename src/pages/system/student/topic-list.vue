@@ -23,7 +23,7 @@
   </q-markup-table>
   <div v-else>
     <TopicContent :topic="topicContent" />
-    <div class="q-mx-auto q-my-lg flex justify-between ui-list-btn-group">
+    <div class="q-mx-auto flex justify-between ui-list-btn-group">
       <q-btn label="返回" class="bg-primary ui-list-btn" @click="showList" />
       <q-btn
         label="选择此课题"
@@ -33,6 +33,7 @@
       />
     </div>
   </div>
+  <div class="q-my-lg"></div>
 </template>
 
 <script setup lang="ts">

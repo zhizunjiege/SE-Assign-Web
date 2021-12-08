@@ -169,7 +169,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title 高等软件工程团队大作业项目API规范
- * @version 1.1.0
+ * @version 1.2.0
  * @baseUrl http://localhost/api
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {

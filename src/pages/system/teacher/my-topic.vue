@@ -58,6 +58,19 @@ async function setTopic() {
     }
   }
 }
+
+(async () => {
+  try {
+    await tS.getTopic();
+  } catch (e) {
+    if (e instanceof Error) {
+      $q.notify({
+        type: "error",
+        message: "网络出错了(*꒦ິ⌓꒦ີ)",
+      });
+    }
+  }
+})();
 </script>
 
 <style scoped lang="scss">

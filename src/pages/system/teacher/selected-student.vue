@@ -1,6 +1,6 @@
 <template>
   <div class="q-mx-auto ui-student-container">
-    <div v-if="tS.student.id && tS.student.id >= 0" class="ui-student-section">
+    <div v-if="(tS.student.id ?? -1) >= 0" class="ui-student-section">
       <div class="row flex-center ui-student-section-item">学生信息</div>
       <div class="row items-center justify-between ui-student-section-item">
         <div class="col-4">姓名</div>
@@ -54,7 +54,21 @@
 <script setup lang="ts">
 import { useTopicStore } from "~/stores/teacher/topic";
 
+const $q = useQuasar();
 const tS = useTopicStore();
+
+(async () => {
+  try {
+    await tS.getTopic();
+  } catch (e) {
+    if (e instanceof Error) {
+      $q.notify({
+        type: "error",
+        message: "网络出错了(*꒦ິ⌓꒦ີ)",
+      });
+    }
+  }
+})();
 </script>
 
 <style scoped lang="scss">

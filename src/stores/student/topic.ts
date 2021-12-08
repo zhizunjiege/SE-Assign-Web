@@ -20,7 +20,6 @@ export const useTopicStore = defineStore("topic-student", {
         ...e,
         teacher: res2.data[i],
       })); */
-
       this.list = [
         {
           id: -1,
@@ -56,13 +55,14 @@ export const useTopicStore = defineStore("topic-student", {
         createTime: "",
         updateTime: "",
         teacher: {},
-      };
+      }; // 测试数据
     },
     async setChosenTopic(topicId: number) {
       /* await api.topic.setChosenTopic({
         userId: uS.id,
         topicId: topicId,
       }); */
+      this.chosen = this.list.find((e) => e.id === topicId)!;
     },
   },
 });

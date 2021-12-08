@@ -43,7 +43,7 @@
     </q-card-section>
   </q-card>
   <q-dialog v-model="formDialogOpen" persistent>
-    <q-card class="transparent shadow-0">
+    <q-card class="flex justify-center">
       <q-card-section>
         <q-markup-table separator="horizontal" class="bg-secondary ui-user-dialog-table">
           <tbody>
@@ -95,7 +95,7 @@
                 />
               </td>
             </tr>
-            <tr>
+            <tr v-if="form.role !== '管理员'">
               <td>{{ form.role === "学生" ? "学号" : "工号" }}</td>
               <td>
                 <q-input v-model="form.jobNum" standout class="float-right ui-user-text" />
@@ -107,13 +107,13 @@
                 <q-input v-model="form.title" standout class="float-right ui-user-text" />
               </td>
             </tr>
-            <tr v-else>
+            <tr v-else-if="form.role === '学生'">
               <td>班级</td>
               <td>
                 <q-input v-model="form.class" standout class="float-right ui-user-text" />
               </td>
             </tr>
-            <tr>
+            <tr v-if="form.role !== '管理员'">
               <td>{{ form.role === "教师" ? "研究方向" : "主修专业" }}</td>
               <td>
                 <q-input v-model="form.major" standout class="float-right ui-user-text" />
@@ -136,14 +136,14 @@
       </q-card-section>
       <q-card-section>
         <div class="flex justify-between ui-user-dialog-btn-group">
-          <q-btn label="取消" class="bg-primary ui-user-dialog-btn" @click="cancelForm" />
+          <q-btn v-close-popup label="取消" class="bg-primary ui-user-dialog-btn" />
           <q-btn label="确认" class="bg-primary ui-user-dialog-btn" @click="submitForm" />
         </div>
       </q-card-section>
     </q-card>
   </q-dialog>
   <q-dialog v-model="fileDialogOpen" persistent>
-    <q-card class="transparent shadow-0">
+    <q-card class="flex justify-center">
       <q-card-section>
         <q-markup-table separator="horizontal" class="bg-secondary ui-user-dialog-table">
           <tbody>
@@ -158,7 +158,7 @@
       </q-card-section>
       <q-card-section>
         <div class="flex justify-between ui-user-dialog-btn-group">
-          <q-btn label="取消" class="bg-primary ui-user-dialog-btn" @click="cancelFile" />
+          <q-btn v-close-popup label="取消" class="bg-primary ui-user-dialog-btn" />
           <q-btn label="确认" class="bg-primary ui-user-dialog-btn" @click="submitFile" />
         </div>
       </q-card-section>
@@ -170,9 +170,7 @@
 // TODO: 导入api
 import { QTableProps } from "quasar";
 
-import { User } from "~/api";
-
-const $q = useQuasar();
+import api, { User } from "~/api";
 
 const rows = ref([] as User[]);
 const columns = [
@@ -231,14 +229,16 @@ rows.value = [
     jobNum: "17375433",
   },
   {
-    id: -1,
-    role: "管理员",
+    id: 0,
+    role: "学生",
     username: "hh",
     name: "测试",
     gender: "男",
     jobNum: "17375433",
   },
-];
+]; // 测试数据
+
+const $q = useQuasar();
 
 const selected = ref([] as User[]);
 function deleteUser() {
@@ -257,8 +257,14 @@ function deleteUser() {
           color: "accent",
           handler: async () => {
             try {
-              // TODO
-              selected.value.splice(0);
+              /* await api.user.deleteUsers(selected.value.map((e) => e.id!)); */
+              selected.value.forEach((item) => {
+                let index = rows.value.findIndex((e) => e.id === item.id);
+                if (index >= 0) {
+                  rows.value.splice(index, 1);
+                }
+              });
+              selected.value = [];
             } catch (e) {
               if (e instanceof Error) {
                 $q.notify({
@@ -293,53 +299,71 @@ const form = reactive({
   email: "",
   resume: "",
 });
-type FormKey = Exclude<keyof typeof form, "id">;
-function resetForm(value: User = {}) {
-  form.id = value.id ?? -1;
+
+function createUser() {
+  type FormKey = Exclude<keyof User, "id">;
+  form.id = -1;
   for (const k in form) {
     if (k !== "id") {
-      form[k as FormKey] = value[k as FormKey] ?? "";
+      form[k as FormKey] = "";
     }
   }
-}
-/* assignUser(target: User, source: User) {
-      target.id = source.id ?? -1;
-      type UserKeyExcludeId = Exclude<keyof User, "id">;
-      for (const k in source) {
-        if (k !== "id") {
-          target[k as UserKeyExcludeId] = source[k as UserKeyExcludeId] ?? "";
-        }
-      }
-    } */
-function createUser() {
-  resetForm();
   formDialogOpen.value = true;
 }
 function updateUser() {
-  resetForm(selected.value[0]);
+  Object.assign(form, selected.value[0]);
   formDialogOpen.value = true;
 }
-
-function cancelForm() {
-  resetForm();
-  formDialogOpen.value = false;
-}
 async function submitForm() {
-  // TODO: 增加逻辑
+  try {
+    if (form.id < 0) {
+      /* const res = await api.user.createUser(form);
+      form.id = res.data; */
+      rows.value.push(form);
+    } else {
+      /* await api.user.updateUser(form.id, form); */
+      Object.assign(selected.value[0], form);
+    }
+    selected.value = [];
+    formDialogOpen.value = false;
+    $q.notify({
+      type: "info",
+      message: "新建或修改用户成功啦",
+    });
+  } catch (e) {
+    if (e instanceof Error) {
+      $q.notify({
+        type: "error",
+        message: "网络出错了(*꒦ິ⌓꒦ີ)",
+      });
+    }
+  }
 }
 
 const fileDialogOpen = ref(false);
-const file = ref(null);
+const file = ref(null as File | null);
 function importUser() {
   file.value = null;
   fileDialogOpen.value = true;
 }
-function cancelFile() {
-  file.value = null;
-  fileDialogOpen.value = false;
-}
 async function submitFile() {
-  // TODO: 增加逻辑
+  try {
+    // TODO: 没时间实现了...
+    console.log(file.value);
+    file.value = null;
+    fileDialogOpen.value = false;
+    $q.notify({
+      type: "info",
+      message: "导入用户成功啦",
+    });
+  } catch (e) {
+    if (e instanceof Error) {
+      $q.notify({
+        type: "error",
+        message: "网络出错了(*꒦ິ⌓꒦ີ)",
+      });
+    }
+  }
 }
 </script>
 
@@ -392,7 +416,7 @@ async function submitFile() {
 </style>
 <style scoped lang="scss">
 .ui-user-dialog-table {
-  width: 540px;
+  width: 500px;
   :deep(tbody td) {
     min-height: 3rem;
     padding: 0.5rem 1.5rem;
@@ -425,7 +449,7 @@ async function submitFile() {
   @include ui-user-input;
 }
 .ui-user-dialog-btn-group {
-  width: 540px;
+  width: 500px;
 }
 .ui-user-dialog-btn {
   width: 160px;

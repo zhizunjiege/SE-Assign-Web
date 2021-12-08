@@ -30,7 +30,7 @@ export const useUserStore = defineStore("user", {
       const res = {
         data: {
           id: 0,
-          role: "教师",
+          role: "学生",
           username: "账号",
           password: "",
           name: "姓名",
@@ -49,7 +49,9 @@ export const useUserStore = defineStore("user", {
       });
     },
     async signOut() {
-      /* await api.user.signOut(); */
+      /* await api.user.signOut({
+        username: this.username,
+      }); */
       this.$reset();
       aS.$patch({
         online: false,

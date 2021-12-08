@@ -32,7 +32,7 @@ export const useTopicStore = defineStore("topic-teacher", {
         updateTime: "",
       };
       this.student = {
-        id: -1,
+        id: 0,
         role: "",
         username: "",
         password: "",
@@ -51,7 +51,8 @@ export const useTopicStore = defineStore("topic-teacher", {
       if (tid && tid >= 0) {
         await api.topic.updateTopic(tid, this.topic);
       } else {
-        await api.topic.createTopic(this.topic);
+        const res = await api.topic.createTopic(this.topic);
+        this.topic.id = res.data;
       } */
     },
   },
