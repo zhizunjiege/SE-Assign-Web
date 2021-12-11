@@ -1,8 +1,9 @@
-import api, { User, Topic } from "~/api";
+// import api, { User, Topic } from "~/api";
+import { User, Topic } from "~/api";
 
-import { useUserStore } from "../user";
+// import { useUserStore } from "../user";
 
-const uS = useUserStore();
+// const uS = useUserStore();
 
 export const useTopicStore = defineStore("topic-teacher", {
   state: () => ({

@@ -170,7 +170,8 @@
 // TODO: 导入api
 import { QTableProps } from "quasar";
 
-import api, { User } from "~/api";
+// import api, { User } from "~/api";
+import { User } from "~/api";
 
 const rows = ref([] as User[]);
 const columns = [

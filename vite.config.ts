@@ -35,7 +35,7 @@ export default defineConfig({
       deep: true,
     }),
     Pages({
-      pagesDir: "src/pages",
+      dirs: "src/pages",
     }),
     Layouts({
       layoutsDir: "src/layouts",
@@ -59,6 +59,7 @@ export default defineConfig({
         drop_console: true,
       },
     },
+    sourcemap: true,
     brotliSize: false,
     rollupOptions: {
       output: {

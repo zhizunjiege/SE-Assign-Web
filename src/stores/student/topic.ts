@@ -1,8 +1,9 @@
-import api, { User, Topic as TopicBase } from "~/api";
+// import api, { User, Topic as TopicBase } from "~/api";
+import { User, Topic as TopicBase } from "~/api";
 
-import { useUserStore } from "../user";
+// import { useUserStore } from "../user";
 
-const uS = useUserStore();
+// const uS = useUserStore();
 export interface Topic extends TopicBase {
   teacher: User;
 }
