@@ -169,7 +169,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title 高等软件工程团队大作业项目API规范
- * @version 1.2.0
+ * @version 1.3.0
  * @baseUrl http://localhost/api
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
@@ -256,40 +256,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: body,
         type: ContentType.Json,
         format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description This can only be done by administrator
-     *
-     * @tags user
-     * @name CreateUsers
-     * @summary Create users
-     * @request POST:/user/list
-     */
-    createUsers: (body: User[], params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/user/list`,
-        method: "POST",
-        body: body,
-        type: ContentType.Json,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags user
-     * @name UpdateUsers
-     * @summary Update users
-     * @request PUT:/user/list
-     */
-    updateUsers: (body: User[], params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/user/list`,
-        method: "PUT",
-        body: body,
-        type: ContentType.Json,
         ...params,
       }),
 
@@ -413,21 +379,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description This can only be done by administrator
-     *
-     * @tags topic
-     * @name DeleteTopic
-     * @summary Delete a topic
-     * @request DELETE:/topic/{topicId}
-     */
-    deleteTopic: (topicId: number, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/topic/${topicId}`,
-        method: "DELETE",
-        ...params,
-      }),
-
-    /**
      * @description If topic id array is empty, return all topic
      *
      * @tags topic
@@ -442,57 +393,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: body,
         type: ContentType.Json,
         format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags topic
-     * @name CreateTopics
-     * @summary Create topics
-     * @request POST:/topic/list
-     */
-    createTopics: (body: Topic[], params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/topic/list`,
-        method: "POST",
-        body: body,
-        type: ContentType.Json,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags topic
-     * @name UpdateTopics
-     * @summary Update topics
-     * @request PUT:/topic/list
-     */
-    updateTopics: (body: Topic[], params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/topic/list`,
-        method: "PUT",
-        body: body,
-        type: ContentType.Json,
-        ...params,
-      }),
-
-    /**
-     * @description This can only be done by administrator
-     *
-     * @tags topic
-     * @name DeleteTopics
-     * @summary Delete topics
-     * @request DELETE:/topic/list
-     */
-    deleteTopics: (body: number[], params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/topic/list`,
-        method: "DELETE",
-        body: body,
-        type: ContentType.Json,
         ...params,
       }),
 

@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  version: "1.2.0"
+  version: "1.3.0"
   title: "高等软件工程团队大作业项目API规范"
 host: "localhost"
 basePath: "/api"
@@ -131,50 +131,6 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/User"
-    post:
-      tags:
-        - "user"
-      summary: "Create users"
-      description: "This can only be done by administrator"
-      operationId: "createUsers"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "List of user object"
-          required: true
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/User"
-      responses:
-        "200":
-          description: "success"
-    put:
-      tags:
-        - "user"
-      summary: "Update users"
-      description: ""
-      operationId: "updateUsers"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "List of user object"
-          required: true
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/User"
-      responses:
-        "200":
-          description: "success"
     delete:
       tags:
         - "user"
@@ -353,24 +309,6 @@ paths:
       responses:
         "200":
           description: "success"
-    delete:
-      tags:
-        - "topic"
-      summary: "Delete a topic"
-      description: "This can only be done by administrator"
-      operationId: "deleteTopic"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "path"
-          name: "topicId"
-          description: "Topic id to be deleted"
-          required: true
-          type: "integer"
-          format: "int64"
-      responses:
-        "200":
-          description: "success"
   /topic/list:
     get:
       tags:
@@ -399,73 +337,6 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Topic"
-    post:
-      tags:
-        - "topic"
-      summary: "Create topics"
-      description: ""
-      operationId: "createTopics"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "List of topic object"
-          required: true
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Topic"
-      responses:
-        "200":
-          description: "success"
-    put:
-      tags:
-        - "topic"
-      summary: "Update topics"
-      description: ""
-      operationId: "updateTopics"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "List of topic object"
-          required: true
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Topic"
-      responses:
-        "200":
-          description: "success"
-    delete:
-      tags:
-        - "topic"
-      summary: "Delete topics"
-      description: "This can only be done by administrator"
-      operationId: "deleteTopics"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "List of topic id"
-          required: true
-          schema:
-            type: "array"
-            items:
-              type: "integer"
-              format: "int64"
-      responses:
-        "200":
-          description: "success"
   /topic/choose:
     get:
       tags:
