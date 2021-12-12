@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-mx-auto ui-sys-page">
     <q-tabs align="justify" class="ui-sys-tabs">
-      <q-route-tab v-for="tab in generatedTabs" :to="`/system/${tab.name}`" :label="tab.label" />
+      <q-route-tab v-for="tab in generatedTabs" :key="tab.name" :to="`/system/${tab.name}`" :label="tab.label" />
     </q-tabs>
     <q-tab-panels model-value="index" animated class="transparent">
       <q-tab-panel name="index">

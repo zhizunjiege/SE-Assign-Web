@@ -92,7 +92,7 @@
 import { Topic } from "~/stores/student/topic";
 
 const props = defineProps<{
-  topic?: Topic;
+  topic?: Topic | null;
 }>();
 </script>
 

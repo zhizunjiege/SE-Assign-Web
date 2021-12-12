@@ -1,5 +1,6 @@
 // import api, { User, Topic } from "~/api";
 import { User, Topic } from "~/api";
+import { getTimeString } from "~/utils";
 
 // import { useUserStore } from "../user";
 
@@ -8,7 +9,7 @@ import { User, Topic } from "~/api";
 export const useTopicStore = defineStore("topic-teacher", {
   state: () => ({
     topic: {} as Topic,
-    student: {} as User,
+    student: {} as User | null,
   }),
   actions: {
     async getTopic() {
@@ -22,29 +23,29 @@ export const useTopicStore = defineStore("topic-teacher", {
         this.student = res2.data;
       } */
       this.topic = {
-        id: -1,
-        teacherId: -1,
-        studentId: 0,
-        title: "",
-        difficulty: "",
-        description: "",
-        requirement: "",
-        createTime: "",
-        updateTime: "",
+        id: 0,
+        teacherId: 0,
+        studentId: -1,
+        title: "基于xxx的xxx",
+        difficulty: "难",
+        description: "这是一个测试课题~",
+        requirement: "希望学生踏实能干，不要拖延",
+        createTime: getTimeString(),
+        updateTime: getTimeString(),
       };
       this.student = {
         id: 0,
-        role: "",
-        username: "",
+        role: "学生",
+        username: "18371234",
         password: "",
-        name: "",
-        gender: "",
-        jobNum: "",
-        class: "",
+        name: "张三",
+        gender: "男",
+        jobNum: "18371234",
+        class: "180322",
         title: "",
-        major: "",
-        email: "",
-        resume: "",
+        major: "自动化",
+        email: "18371234@buaa.edu.cn",
+        resume: "这是一个测试账号哟~",
       };
     },
     async setTopic() {

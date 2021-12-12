@@ -1,5 +1,8 @@
 <template>
-  <TopicContent :topic="tS.chosen" />
+  <TopicContent v-if="tS.chosen" :topic="tS.chosen" />
+  <div v-else>
+    <h5 class="text-center text-positive">暂未选择课题</h5>
+  </div>
   <div class="q-my-lg"></div>
 </template>
 

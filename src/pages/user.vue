@@ -11,13 +11,19 @@
     </div>
     <q-splitter v-model="splitterModel" class="ui-user-splitter">
       <template #before>
-        <q-tabs v-model="tab" vertical>
-          <q-route-tab v-for="tab in generatedTabs" :to="`/user/${tab.name}`" :name="tab.name" :label="tab.label" />
+        <q-tabs v-model="tabIndex" vertical>
+          <q-route-tab
+            v-for="tab in generatedTabs"
+            :key="tab.name"
+            :to="`/user/${tab.name}`"
+            :name="tab.name"
+            :label="tab.label"
+          />
         </q-tabs>
       </template>
       <template #after>
-        <q-tab-panels v-model="tab" animated vertical class="transparent">
-          <q-tab-panel v-for="tab in generatedTabs" :name="tab.name">
+        <q-tab-panels v-model="tabIndex" animated vertical class="transparent">
+          <q-tab-panel v-for="tab in generatedTabs" :key="tab.name" :name="tab.name">
             <router-view />
           </q-tab-panel>
         </q-tab-panels>
@@ -32,7 +38,7 @@ import { useUserStore } from "~/stores/user";
 const uS = useUserStore();
 
 const splitterModel = ref(15);
-const tab = ref("detail");
+const tabIndex = ref("detail");
 
 const generatedTabs = [
   { name: "detail", label: "个人信息" },
