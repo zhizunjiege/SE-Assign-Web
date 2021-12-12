@@ -1,5 +1,5 @@
-// import api from "~/api";
-// import { digestMessage } from "~/utils";
+import api from "~/api";
+import { digestMessage } from "~/utils";
 
 import { useAppStore } from "./app";
 
@@ -22,68 +22,20 @@ export const useUserStore = defineStore("user", {
   }),
   actions: {
     async signIn() {
-      /* const hashPwd = await digestMessage(this.password);
+      const hashPwd = await digestMessage(this.password);
       const res = await api.user.signIn({
         username: this.username,
         password: hashPwd,
-      }); */
-      const res = {
-        data: {
-          id: 0,
-          role: "学生",
-          username: "18371234",
-          password: "",
-          name: "张三",
-          gender: "男",
-          jobNum: "18371234",
-          class: "180322",
-          title: "",
-          major: "自动化",
-          email: "18371234@buaa.edu.cn",
-          resume: "这是一个测试账号哟~",
-        },
-      };
-      // const res = {
-      //   data: {
-      //     id: 0,
-      //     role: "教师",
-      //     username: "02121",
-      //     password: "",
-      //     name: "李四",
-      //     gender: "男",
-      //     jobNum: "02121",
-      //     class: "",
-      //     title: "教授",
-      //     major: "无人机集群控制",
-      //     email: "02121@buaa.edu.cn",
-      //     resume: "这是一个测试账号哟~",
-      //   },
-      // };
-      // const res = {
-      //   data: {
-      //     id: 0,
-      //     role: "管理员",
-      //     username: "8888",
-      //     password: "",
-      //     name: "ROOT",
-      //     gender: "",
-      //     jobNum: "",
-      //     class: "",
-      //     title: "",
-      //     major: "",
-      //     email: "",
-      //     resume: "",
-      //   },
-      // };
+      });
       Object.assign(this.$state, res.data);
       aS.$patch({
         online: true,
       });
     },
     async signOut() {
-      /* await api.user.signOut({
+      await api.user.signOut({
         username: this.username,
-      }); */
+      });
       this.$reset();
       aS.$patch({
         online: false,
@@ -91,19 +43,19 @@ export const useUserStore = defineStore("user", {
     },
 
     async updatePassword(oldPwd: string, newPwd: string) {
-      /* const oldPwdHash = await digestMessage(oldPwd);
+      const oldPwdHash = await digestMessage(oldPwd);
       const newPwdHash = await digestMessage(newPwd);
       await api.user.updatePassword({
         userId: this.id,
         oldPwd: oldPwdHash,
         newPwd: newPwdHash,
-      }); */
+      });
     },
     async updateDetails() {
-      /* await api.user.updateUser(this.id, {
+      await api.user.updateUser(this.id, {
         email: this.email,
         resume: this.resume,
-      }); */
+      });
     },
   },
 });

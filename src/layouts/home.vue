@@ -36,7 +36,7 @@
     </q-page-container>
     <q-footer elevated>
       <q-toolbar class="justify-end ui-home-footer-toolbar">
-        <q-icon :name="$q.dark.isActive ? 'bi-moon' : 'bi-sun'" @click="$q.dark.toggle" class="ui-icon" />
+        <q-icon :name="$q.dark.isActive ? 'bi-moon' : 'bi-sun'" class="ui-icon" @click="$q.dark.toggle" />
         <q-space />
         <q-toolbar-title shrink class="ui-home-footer-title"> 15 - 扎不多得嘞队 © 2021 V1.0 </q-toolbar-title>
       </q-toolbar>

@@ -1,12 +1,12 @@
 <template>
   <q-card class="bg-secondary ui-sign-card">
-    <q-card-section class="text-h6">登陆</q-card-section>
+    <q-card-section class="text-h6">登录</q-card-section>
     <q-card-section>
       <q-input v-model="uS.username" autocomplete filled label="账号" placeholder="4到16位大小写字母或数字" class="q-mb-md" />
       <q-input v-model="uS.password" type="password" autocomplete filled label="密码" placeholder="8到16位大小写字母或数字" />
     </q-card-section>
     <q-card-section>
-      <q-btn label="登陆" color="info" class="full-width" @click="signIn" />
+      <q-btn label="登录" color="info" class="full-width" @click="signIn" />
     </q-card-section>
   </q-card>
 </template>
@@ -32,7 +32,7 @@ async function signIn() {
       await uS.signIn();
       $q.notify({
         type: "info",
-        message: "登陆成功啦",
+        message: "登录成功啦",
       });
     } catch (e) {
       if (e instanceof Error) {

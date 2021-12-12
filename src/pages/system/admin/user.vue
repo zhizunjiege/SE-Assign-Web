@@ -170,8 +170,7 @@
 // TODO: 导入api
 import { QTableProps } from "quasar";
 
-// import api, { User } from "~/api";
-import { User } from "~/api";
+import api, { User } from "~/api";
 
 const rows = ref([] as User[]);
 const columns = [
@@ -220,50 +219,10 @@ const pagination = ref({
   rowsPerPage: 10,
 });
 
-rows.value = [
-  {
-    id: 0,
-    role: "管理员",
-    username: "8888",
-    password: "",
-    name: "ROOT",
-    gender: "",
-    jobNum: "",
-    class: "",
-    title: "",
-    major: "",
-    email: "",
-    resume: "",
-  },
-  {
-    id: 1,
-    role: "教师",
-    username: "02121",
-    password: "",
-    name: "李四",
-    gender: "男",
-    jobNum: "02121",
-    class: "",
-    title: "教授",
-    major: "无人机集群控制",
-    email: "02121@buaa.edu.cn",
-    resume: "这是一个测试账号哟~",
-  },
-  {
-    id: 2,
-    role: "学生",
-    username: "18371234",
-    password: "",
-    name: "张三",
-    gender: "男",
-    jobNum: "18371234",
-    class: "180322",
-    title: "",
-    major: "自动化",
-    email: "18371234@buaa.edu.cn",
-    resume: "这是一个测试账号哟~",
-  },
-];
+(async () => {
+  const res = await api.user.getUsers([]);
+  rows.value = res.data;
+})();
 
 const $q = useQuasar();
 
@@ -284,7 +243,7 @@ function deleteUser() {
           color: "accent",
           handler: async () => {
             try {
-              /* await api.user.deleteUsers(selected.value.map((e) => e.id!)); */
+              await api.user.deleteUsers(selected.value.map((e) => e.id!));
               selected.value.forEach((item) => {
                 let index = rows.value.findIndex((e) => e.id === item.id);
                 if (index >= 0) {
@@ -344,11 +303,11 @@ function updateUser() {
 async function submitForm() {
   try {
     if (form.id < 0) {
-      /* const res = await api.user.createUser(form);
-      form.id = res.data; */
+      const res = await api.user.createUser(form);
+      form.id = res.data;
       rows.value.push(form);
     } else {
-      /* await api.user.updateUser(form.id, form); */
+      await api.user.updateUser(form.id, form);
       Object.assign(selected.value[0], form);
     }
     selected.value = [];
