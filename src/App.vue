@@ -3,6 +3,9 @@
 </template>
 
 <script setup lang="ts">
+import { AxiosError } from "axios";
+import api from "~/api";
+
 import { useAppStore } from "~/stores/app";
 
 const $q = useQuasar();
@@ -29,6 +32,19 @@ aS.$subscribe(
     detached: true,
   }
 );
+
+// 统一拦截器
+api.instance.interceptors.response.use(undefined, (error: AxiosError) => {
+  console.log("Error from response");
+  console.log(error);
+  if (!error.response) {
+    $q.notify({
+      type: "error",
+      message: "网络出错了(*꒦ິ⌓꒦ີ)",
+    });
+  }
+  return Promise.reject(error);
+});
 
 // 模拟加载数据的耗时过程
 setTimeout(() => {

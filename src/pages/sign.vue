@@ -15,6 +15,8 @@
 import { useAppStore } from "~/stores/app";
 import { useUserStore } from "~/stores/user";
 
+import { errorHandler } from "~/utils";
+
 const router = useRouter();
 const aS = useAppStore();
 if (aS.online) {
@@ -35,12 +37,14 @@ async function signIn() {
         message: "登录成功啦",
       });
     } catch (e) {
-      if (e instanceof Error) {
-        $q.notify({
-          type: "error",
-          message: "网络出错了(*꒦ິ⌓꒦ີ)",
-        });
-      }
+      errorHandler(e, {
+        401: () => {
+          $q.notify({
+            type: "error",
+            message: "账号或密码错误，请重新输入",
+          });
+        },
+      });
     }
   } else {
     $q.notify({

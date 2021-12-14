@@ -90,7 +90,7 @@ export class HttpClient<SecurityDataType = unknown> {
   private format?: ResponseType;
 
   constructor({ securityWorker, secure, format, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
-    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "http://localhost/api" });
+    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "/" });
     this.secure = secure;
     this.format = format;
     this.securityWorker = securityWorker;
@@ -170,7 +170,7 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title 高等软件工程团队大作业项目API规范
  * @version 1.3.0
- * @baseUrl http://localhost/api
+ * @baseUrl /
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   user = {
