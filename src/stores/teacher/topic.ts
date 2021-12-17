@@ -6,7 +6,13 @@ const uS = useUserStore();
 
 export const useTopicStore = defineStore("topic-teacher", {
   state: () => ({
-    topic: {} as Topic,
+    topic: {
+      id: -1,
+      title: "",
+      difficulty: "",
+      description: "",
+      requirement: "",
+    } as Topic,
     student: null as User | null,
   }),
   actions: {

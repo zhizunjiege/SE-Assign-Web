@@ -32,7 +32,11 @@
     </tbody>
   </q-markup-table>
   <div class="q-mx-auto q-my-lg flex justify-end ui-topic-btn-group">
-    <q-btn :label="tS.topic.id! < 0 ? '新建课题' : '修改课题'" class="bg-primary ui-topic-btn" @click="setTopic" />
+    <q-btn
+      :label="!tS.topic.id || tS.topic.id < 0 ? '新建课题' : '修改课题'"
+      class="bg-primary ui-topic-btn"
+      @click="setTopic"
+    />
   </div>
 </template>
 

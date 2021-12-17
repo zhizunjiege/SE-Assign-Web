@@ -10,7 +10,7 @@ import { useAppStore } from "~/stores/app";
 
 const $q = useQuasar();
 // 颜色主题为自动模式
-$q.dark.set("auto");
+$q.dark.set(true);
 
 const router = useRouter();
 const aS = useAppStore();
