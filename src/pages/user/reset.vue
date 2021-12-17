@@ -46,6 +46,7 @@
 
 <script setup lang="ts">
 import { useUserStore } from "~/stores/user";
+import { errorHandler } from "~/utils";
 
 const $q = useQuasar();
 const uS = useUserStore();
@@ -77,12 +78,20 @@ async function updatePassword() {
         message: "密码修改成功啦",
       });
     } catch (e) {
-      if (e instanceof Error) {
-        $q.notify({
-          type: "error",
-          message: "网络出错了(*꒦ິ⌓꒦ີ)",
-        });
-      }
+      errorHandler(e, {
+        400: () => {
+          $q.notify({
+            type: "error",
+            message: "用户不存在",
+          });
+        },
+        401: () => {
+          $q.notify({
+            type: "warning",
+            message: "旧密码不正确，请重新输入",
+          });
+        },
+      });
     }
   }
 }

@@ -18,7 +18,7 @@ export interface User {
   name?: string;
   gender?: string;
   jobNum?: string;
-  class?: string;
+  studentClass?: string;
   title?: string;
   major?: string;
   email?: string;

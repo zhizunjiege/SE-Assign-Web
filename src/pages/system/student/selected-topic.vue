@@ -10,6 +10,7 @@
 import TopicContent from "./topic-content.vue";
 
 import { useTopicStore } from "~/stores/student/topic";
+import { errorHandler } from "~/utils";
 
 const $q = useQuasar();
 const tS = useTopicStore();
@@ -18,12 +19,20 @@ const tS = useTopicStore();
   try {
     await tS.getChosenTopic();
   } catch (e) {
-    if (e instanceof Error) {
-      $q.notify({
-        type: "error",
-        message: "网络出错了(*꒦ິ⌓꒦ີ)",
-      });
-    }
+    errorHandler(e, {
+      400: () => {
+        $q.notify({
+          type: "warning",
+          message: "您尚未选择一个课题",
+        });
+      },
+      401: () => {
+        $q.notify({
+          type: "error",
+          message: "身份验证失败",
+        });
+      },
+    });
   }
 })();
 </script>

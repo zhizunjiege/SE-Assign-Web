@@ -14,7 +14,7 @@ export const useUserStore = defineStore("user", {
     name: "", // 姓名
     gender: "", // 性别
     jobNum: "", // 学/工号
-    class: "", // 班级，学生专有
+    studentClass: "", // 班级，学生专有
     title: "", // 职称，教师专有
     major: "", // 主修专业/研究方向
     email: "", // 邮箱
@@ -22,7 +22,7 @@ export const useUserStore = defineStore("user", {
   }),
   actions: {
     async signIn() {
-      const hashPwd = await digestMessage(this.password);
+      const hashPwd = digestMessage(this.password);
       const res = await api.user.signIn({
         username: this.username,
         password: hashPwd,
@@ -43,8 +43,8 @@ export const useUserStore = defineStore("user", {
     },
 
     async updatePassword(oldPwd: string, newPwd: string) {
-      const oldPwdHash = await digestMessage(oldPwd);
-      const newPwdHash = await digestMessage(newPwd);
+      const oldPwdHash = digestMessage(oldPwd);
+      const newPwdHash = digestMessage(newPwd);
       await api.user.updatePassword({
         userId: this.id,
         oldPwd: oldPwdHash,

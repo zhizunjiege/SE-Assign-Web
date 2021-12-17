@@ -34,7 +34,7 @@
       <tr v-else>
         <td>班级</td>
         <td>
-          <q-input v-model="uS.class" standout class="float-right ui-detail-text" disable />
+          <q-input v-model="uS.studentClass" standout class="float-right ui-detail-text" disable />
         </td>
       </tr>
       <tr>
@@ -80,6 +80,7 @@
 
 <script setup lang="ts">
 import { useUserStore } from "~/stores/user";
+import { errorHandler } from "~/utils";
 
 const $q = useQuasar();
 const uS = useUserStore();
@@ -93,12 +94,14 @@ async function updateDetails() {
       message: "修改信息成功",
     });
   } catch (e) {
-    if (e instanceof Error) {
-      $q.notify({
-        type: "error",
-        message: "网络出错啦",
-      });
-    }
+    errorHandler(e, {
+      401: () => {
+        $q.notify({
+          type: "error",
+          message: "身份验证失败",
+        });
+      },
+    });
   }
 }
 </script>

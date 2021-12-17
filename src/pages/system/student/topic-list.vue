@@ -40,6 +40,7 @@
 import TopicContent from "./topic-content.vue";
 
 import { useTopicStore } from "~/stores/student/topic";
+import { errorHandler } from "~/utils";
 
 const $q = useQuasar();
 const tS = useTopicStore();
@@ -65,12 +66,20 @@ async function chooseTopic() {
         message: "选题成功啦",
       });
     } catch (e) {
-      if (e instanceof Error) {
-        $q.notify({
-          type: "error",
-          message: "网络出错了(*꒦ິ⌓꒦ີ)",
-        });
-      }
+      errorHandler(e, {
+        400: () => {
+          $q.notify({
+            type: "warning",
+            message: "课题不存在或已被他人选择",
+          });
+        },
+        401: () => {
+          $q.notify({
+            type: "error",
+            message: "身份验证失败",
+          });
+        },
+      });
     }
   }
 }
@@ -79,12 +88,14 @@ async function chooseTopic() {
   try {
     await tS.getTopicList();
   } catch (e) {
-    if (e instanceof Error) {
-      $q.notify({
-        type: "error",
-        message: "网络出错了(*꒦ິ⌓꒦ີ)",
-      });
-    }
+    errorHandler(e, {
+      401: () => {
+        $q.notify({
+          type: "error",
+          message: "身份验证失败",
+        });
+      },
+    });
   }
 })();
 </script>

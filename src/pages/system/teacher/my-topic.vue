@@ -38,6 +38,7 @@
 
 <script setup lang="ts">
 import { useTopicStore } from "~/stores/teacher/topic";
+import { errorHandler } from "~/utils";
 
 const $q = useQuasar();
 const tS = useTopicStore();
@@ -50,12 +51,14 @@ async function setTopic() {
       message: "新建或修改课题成功啦",
     });
   } catch (e) {
-    if (e instanceof Error) {
-      $q.notify({
-        type: "error",
-        message: "网络出错了(*꒦ິ⌓꒦ີ)",
-      });
-    }
+    errorHandler(e, {
+      401: () => {
+        $q.notify({
+          type: "error",
+          message: "身份验证失败",
+        });
+      },
+    });
   }
 }
 
@@ -63,12 +66,20 @@ async function setTopic() {
   try {
     await tS.getTopic();
   } catch (e) {
-    if (e instanceof Error) {
-      $q.notify({
-        type: "error",
-        message: "网络出错了(*꒦ິ⌓꒦ີ)",
-      });
-    }
+    errorHandler(e, {
+      400: () => {
+        $q.notify({
+          type: "warning",
+          message: "您尚未发布一个课题",
+        });
+      },
+      401: () => {
+        $q.notify({
+          type: "error",
+          message: "身份验证失败",
+        });
+      },
+    });
   }
 })();
 </script>

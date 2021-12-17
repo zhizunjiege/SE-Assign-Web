@@ -516,7 +516,7 @@ definitions:
         type: "string"
       jobNum:
         type: "string"
-      class:
+      studentClass:
         type: "string"
       title:
         type: "string"

@@ -23,7 +23,7 @@
       <div class="row items-center justify-between ui-student-section-item">
         <div class="col-4">班级</div>
         <div class="col-8">
-          <div class="float-right flex items-center ui-student-single">{{ tS.student.class }}</div>
+          <div class="float-right flex items-center ui-student-single">{{ tS.student.studentClass }}</div>
         </div>
       </div>
       <div class="row items-center justify-between ui-student-section-item">
@@ -53,6 +53,7 @@
 
 <script setup lang="ts">
 import { useTopicStore } from "~/stores/teacher/topic";
+import { errorHandler } from "~/utils";
 
 const $q = useQuasar();
 const tS = useTopicStore();
@@ -61,12 +62,20 @@ const tS = useTopicStore();
   try {
     await tS.getTopic();
   } catch (e) {
-    if (e instanceof Error) {
-      $q.notify({
-        type: "error",
-        message: "网络出错了(*꒦ິ⌓꒦ີ)",
-      });
-    }
+    errorHandler(e, {
+      400: () => {
+        $q.notify({
+          type: "warning",
+          message: "您尚未发布一个课题",
+        });
+      },
+      401: () => {
+        $q.notify({
+          type: "error",
+          message: "身份验证失败",
+        });
+      },
+    });
   }
 })();
 </script>

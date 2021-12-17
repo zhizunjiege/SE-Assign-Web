@@ -46,6 +46,7 @@
 
 <script setup lang="ts">
 import { useUserStore } from "~/stores/user";
+import { errorHandler } from "~/utils";
 
 const $q = useQuasar();
 const uS = useUserStore();
@@ -58,12 +59,7 @@ async function signOut() {
       message: "登出成功",
     });
   } catch (e) {
-    if (e instanceof Error) {
-      $q.notify({
-        type: "error",
-        message: "网络出错啦",
-      });
-    }
+    errorHandler(e);
   }
 }
 </script>

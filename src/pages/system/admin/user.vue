@@ -110,7 +110,7 @@
             <tr v-else-if="form.role === '学生'">
               <td>班级</td>
               <td>
-                <q-input v-model="form.class" standout class="float-right ui-user-text" />
+                <q-input v-model="form.studentClass" standout class="float-right ui-user-text" />
               </td>
             </tr>
             <tr v-if="form.role !== '管理员'">
@@ -167,10 +167,10 @@
 </template>
 
 <script setup lang="ts">
-// TODO: 导入api
 import { QTableProps } from "quasar";
 
 import api, { User } from "~/api";
+import { digestMessage, errorHandler } from "~/utils";
 
 const rows = ref([] as User[]);
 const columns = [
@@ -252,12 +252,20 @@ function deleteUser() {
               });
               selected.value = [];
             } catch (e) {
-              if (e instanceof Error) {
-                $q.notify({
-                  type: "error",
-                  message: "删除用户时出错：" + e.message,
-                });
-              }
+              errorHandler(e, {
+                400: () => {
+                  $q.notify({
+                    type: "warning",
+                    message: "待删除的用户列表为空",
+                  });
+                },
+                401: () => {
+                  $q.notify({
+                    type: "error",
+                    message: "身份验证失败",
+                  });
+                },
+              });
             }
           },
         },
@@ -279,7 +287,7 @@ const form = reactive({
   name: "",
   gender: "",
   jobNum: "",
-  class: "",
+  studentClass: "",
   title: "",
   major: "",
   email: "",
@@ -303,6 +311,7 @@ function updateUser() {
 async function submitForm() {
   try {
     if (form.id < 0) {
+      form.password = digestMessage(form.password);
       const res = await api.user.createUser(form);
       form.id = res.data;
       rows.value.push(form);
@@ -317,12 +326,14 @@ async function submitForm() {
       message: "新建或修改用户成功啦",
     });
   } catch (e) {
-    if (e instanceof Error) {
-      $q.notify({
-        type: "error",
-        message: "网络出错了(*꒦ິ⌓꒦ີ)",
-      });
-    }
+    errorHandler(e, {
+      401: () => {
+        $q.notify({
+          type: "error",
+          message: "身份验证失败",
+        });
+      },
+    });
   }
 }
 
@@ -343,12 +354,20 @@ async function submitFile() {
       message: "导入用户成功啦",
     });
   } catch (e) {
-    if (e instanceof Error) {
-      $q.notify({
-        type: "error",
-        message: "网络出错了(*꒦ິ⌓꒦ີ)",
-      });
-    }
+    errorHandler(e, {
+      400: () => {
+        $q.notify({
+          type: "warning",
+          message: "待导入用户列表为空",
+        });
+      },
+      401: () => {
+        $q.notify({
+          type: "error",
+          message: "身份验证失败",
+        });
+      },
+    });
   }
 }
 </script>

@@ -10,7 +10,7 @@ export interface Topic extends TopicBase {
 export const useTopicStore = defineStore("topic-student", {
   state: () => ({
     list: [] as Topic[],
-    chosen: {} as Topic | null,
+    chosen: null as Topic | null,
   }),
   actions: {
     async getTopicList() {

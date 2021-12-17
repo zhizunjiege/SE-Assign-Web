@@ -14,7 +14,6 @@
 <script setup lang="ts">
 import { useAppStore } from "~/stores/app";
 import { useUserStore } from "~/stores/user";
-
 import { errorHandler } from "~/utils";
 
 const router = useRouter();
@@ -40,8 +39,14 @@ async function signIn() {
       errorHandler(e, {
         401: () => {
           $q.notify({
-            type: "error",
+            type: "warning",
             message: "账号或密码错误，请重新输入",
+          });
+        },
+        500: () => {
+          $q.notify({
+            type: "error",
+            message: "服务器错误，请稍等片刻，然后重试",
           });
         },
       });
