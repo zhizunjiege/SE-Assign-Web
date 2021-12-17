@@ -240,12 +240,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags user
      * @name GetUsers
      * @summary Get users
-     * @request GET:/user/list
+     * @request POST:/user/list
      */
     getUsers: (body: number[], params: RequestParams = {}) =>
       this.request<User[], void>({
         path: `/user/list`,
-        method: "GET",
+        method: "POST",
         body: body,
         type: ContentType.Json,
         format: "json",
