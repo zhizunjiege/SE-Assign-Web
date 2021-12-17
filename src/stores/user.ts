@@ -52,10 +52,7 @@ export const useUserStore = defineStore("user", {
       });
     },
     async updateDetails() {
-      await api.user.updateUser(this.id, {
-        email: this.email,
-        resume: this.resume,
-      });
+      await api.user.updateUser(this.id, this.$state);
     },
   },
 });
