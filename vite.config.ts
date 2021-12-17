@@ -52,6 +52,12 @@ export default defineConfig({
     fs: {
       strict: true,
     },
+    proxy: {
+      "^/(?:user|topic)": {
+        target: "http://10.135.67.153:10011",
+        changeOrigin: true,
+      },
+    },
   },
   build: {
     terserOptions: {
