@@ -42,13 +42,6 @@ export interface Topic {
   updateTime?: string;
 }
 
-export interface ApiResponse {
-  /** @format int32 */
-  code?: number;
-  type?: string;
-  msg?: string;
-}
-
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from "axios";
 
 export type QueryParamsType = Record<string | number, any>;
@@ -169,7 +162,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title 高等软件工程团队大作业项目API规范
- * @version 1.3.0
+ * @version 1.5.0
  * @baseUrl /
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
@@ -183,7 +176,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/user
      */
     createUser: (body: User, params: RequestParams = {}) =>
-      this.request<number, any>({
+      this.request<number, void>({
         path: `/user`,
         method: "POST",
         body: body,
@@ -201,7 +194,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/{userId}
      */
     getUser: (userId: number, params: RequestParams = {}) =>
-      this.request<User, any>({
+      this.request<User, void>({
         path: `/user/${userId}`,
         method: "GET",
         format: "json",
@@ -217,7 +210,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/user/{userId}
      */
     updateUser: (userId: number, body: User, params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<void, void>({
         path: `/user/${userId}`,
         method: "PUT",
         body: body,
@@ -234,7 +227,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/user/{userId}
      */
     deleteUser: (userId: number, params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<void, void>({
         path: `/user/${userId}`,
         method: "DELETE",
         type: ContentType.Json,
@@ -250,7 +243,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/list
      */
     getUsers: (body: number[], params: RequestParams = {}) =>
-      this.request<User[], any>({
+      this.request<User[], void>({
         path: `/user/list`,
         method: "GET",
         body: body,
@@ -268,7 +261,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/user/list
      */
     deleteUsers: (body: number[], params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<void, void>({
         path: `/user/list`,
         method: "DELETE",
         body: body,
@@ -285,7 +278,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/user/signin
      */
     signIn: (query: { username: string; password: string }, params: RequestParams = {}) =>
-      this.request<User, any>({
+      this.request<User, void>({
         path: `/user/signin`,
         method: "GET",
         query: query,
@@ -318,7 +311,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/user/password
      */
     updatePassword: (body: { userId: number; oldPwd: string; newPwd: string }, params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<void, void>({
         path: `/user/password`,
         method: "POST",
         body: body,
@@ -336,7 +329,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/topic
      */
     createTopic: (body: Topic, params: RequestParams = {}) =>
-      this.request<number, any>({
+      this.request<number, void>({
         path: `/topic`,
         method: "POST",
         body: body,
@@ -354,7 +347,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/topic/{topicId}
      */
     getTopic: (topicId: number, params: RequestParams = {}) =>
-      this.request<Topic, any>({
+      this.request<Topic, void>({
         path: `/topic/${topicId}`,
         method: "GET",
         format: "json",
@@ -370,10 +363,26 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/topic/{topicId}
      */
     updateTopic: (topicId: number, body: Topic, params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<void, void>({
         path: `/topic/${topicId}`,
         method: "PUT",
         body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description This can only be done by administrator
+     *
+     * @tags topic
+     * @name DeleteTopic
+     * @summary Delete a topic
+     * @request DELETE:/topic/{topicId}
+     */
+    deleteTopic: (topicId: number, params: RequestParams = {}) =>
+      this.request<void, void>({
+        path: `/topic/${topicId}`,
+        method: "DELETE",
         type: ContentType.Json,
         ...params,
       }),
@@ -387,12 +396,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/topic/list
      */
     getTopics: (body: number[], params: RequestParams = {}) =>
-      this.request<Topic[], any>({
+      this.request<Topic[], void>({
         path: `/topic/list`,
         method: "GET",
         body: body,
         type: ContentType.Json,
         format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description This can only be done by administrator
+     *
+     * @tags topic
+     * @name DeleteTopics
+     * @summary Delete topics
+     * @request DELETE:/topic/list
+     */
+    deleteTopics: (body: number[], params: RequestParams = {}) =>
+      this.request<void, void>({
+        path: `/topic/list`,
+        method: "DELETE",
+        body: body,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -405,7 +431,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/topic/choose
      */
     getChosenTopic: (query: { userId: number }, params: RequestParams = {}) =>
-      this.request<Topic, any>({
+      this.request<Topic, void>({
         path: `/topic/choose`,
         method: "GET",
         query: query,
@@ -422,7 +448,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/topic/choose
      */
     setChosenTopic: (body: { userId: number; topicId: number }, params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<void, void>({
         path: `/topic/choose`,
         method: "POST",
         body: body,
@@ -439,7 +465,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/topic/publish
      */
     getPublishedTopic: (query: { userId: number }, params: RequestParams = {}) =>
-      this.request<Topic, any>({
+      this.request<Topic, void>({
         path: `/topic/publish`,
         method: "GET",
         query: query,

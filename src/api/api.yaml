@@ -1,8 +1,7 @@
 swagger: "2.0"
 info:
-  version: "1.4.0"
+  version: "1.5.0"
   title: "高等软件工程团队大作业项目API规范"
-host: ""
 basePath: "/"
 tags:
   - name: "user"
@@ -36,6 +35,8 @@ paths:
             type: "integer"
             format: "int64"
             description: "Created user id"
+        "401":
+          description: "Unauthorized token"
   /user/{userId}:
     get:
       tags:
@@ -57,6 +58,8 @@ paths:
           description: "success"
           schema:
             $ref: "#/definitions/User"
+        "401":
+          description: "Unauthorized token"
     put:
       tags:
         - "user"
@@ -83,6 +86,8 @@ paths:
       responses:
         "200":
           description: "success"
+        "401":
+          description: "Unauthorized token"
     delete:
       tags:
         - "user"
@@ -103,6 +108,8 @@ paths:
       responses:
         "200":
           description: "success"
+        "401":
+          description: "Unauthorized token or role is not administrator"
   /user/list:
     get:
       tags:
@@ -131,6 +138,8 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/User"
+        "401":
+          description: "Unauthorized token"
     delete:
       tags:
         - "user"
@@ -154,6 +163,10 @@ paths:
       responses:
         "200":
           description: "success"
+        "400":
+          description: "List of id can not be empty"
+        "401":
+          description: "Unauthorized token or role is not administrator"
   /user/signin:
     get:
       tags:
@@ -188,6 +201,10 @@ paths:
               type: "string"
               format: "date-time"
               description: "date in UTC when token expires"
+        "401":
+          description: "Username or password incorrect"
+        "500":
+          description: "Internal Server Error"
   /user/signout:
     get:
       tags:
@@ -237,6 +254,10 @@ paths:
       responses:
         "200":
           description: "success"
+        "400":
+          description: "Id does not exist"
+        "401":
+          description: "Unauthorized token or old password incorrect"
   /topic:
     post:
       tags:
@@ -262,6 +283,8 @@ paths:
             type: "integer"
             format: "int64"
             description: "Created topic id"
+        "401":
+          description: "Unauthorized token"
   /topic/{topicId}:
     get:
       tags:
@@ -283,6 +306,8 @@ paths:
           description: "success"
           schema:
             $ref: "#/definitions/Topic"
+        "401":
+          description: "Unauthorized token"
     put:
       tags:
         - "topic"
@@ -309,6 +334,30 @@ paths:
       responses:
         "200":
           description: "success"
+        "401":
+          description: "Unauthorized token"
+    delete:
+      tags:
+        - "topic"
+      summary: "Delete a topic"
+      description: "This can only be done by administrator"
+      operationId: "deleteTopic"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "topicId"
+          description: "Topic id to be deleted"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "success"
+        "401":
+          description: "Unauthorized token or role is not administrator"
   /topic/list:
     get:
       tags:
@@ -337,6 +386,35 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Topic"
+        "401":
+          description: "Unauthorized token"
+    delete:
+      tags:
+        - "topic"
+      summary: "Delete topics"
+      description: "This can only be done by administrator"
+      operationId: "deleteTopics"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "List of topic id"
+          required: true
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+              format: "int64"
+      responses:
+        "200":
+          description: "success"
+        "400":
+          description: "List of id can not be empty"
+        "401":
+          description: "Unauthorized token or role is not administrator"
   /topic/choose:
     get:
       tags:
@@ -358,6 +436,10 @@ paths:
           description: "success"
           schema:
             $ref: "#/definitions/Topic"
+        "400":
+          description: "Student has not chosen a topic"
+        "401":
+          description: "Unauthorized token"
     post:
       tags:
         - "topic"
@@ -386,6 +468,10 @@ paths:
       responses:
         "200":
           description: "success"
+        "400":
+          description: "Topic does not exist or already chosen by other student"
+        "401":
+          description: "Unauthorized token"
   /topic/publish:
     get:
       tags:
@@ -407,6 +493,10 @@ paths:
           description: "success"
           schema:
             $ref: "#/definitions/Topic"
+        "400":
+          description: "Teacher has not publish a topic"
+        "401":
+          description: "Unauthorized token"
 definitions:
   User:
     type: "object"
@@ -459,14 +549,4 @@ definitions:
       createTime:
         type: "string"
       updateTime:
-        type: "string"
-  ApiResponse:
-    type: "object"
-    properties:
-      code:
-        type: "integer"
-        format: "int32"
-      type:
-        type: "string"
-      msg:
         type: "string"
